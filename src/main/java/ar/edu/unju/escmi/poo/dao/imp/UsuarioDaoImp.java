@@ -3,22 +3,22 @@ package ar.edu.unju.escmi.poo.dao.imp;
 import javax.persistence.EntityManager;
 
 import ar.edu.unju.escmi.poo.config.EmfSingleton;
-import ar.edu.unju.escmi.poo.dao.IClienteDao;
-import ar.edu.unju.escmi.poo.models.Cliente;
+import ar.edu.unju.escmi.poo.dao.IUsuarioDao;
+import ar.edu.unju.escmi.poo.models.Usuario;
 
-public class ClienteDaoImp implements IClienteDao {
+public class UsuarioDaoImp implements IUsuarioDao {
 	private static EntityManager manager = EmfSingleton.getInstance().getEmf().createEntityManager();
 
 	@Override
-	public Cliente obtenerCliente(Long dni) {
+	public Usuario obtenerUsuario(Long dni) {
 
-		return manager.find(Cliente.class, dni);
+		return manager.find(Usuario.class, dni);
 	}
 
 	@Override
-	public void guardarCliente(Cliente cliente) {
+	public void guardarUsuario(Usuario usuario) {
 		manager.getTransaction().begin();
-		manager.persist(cliente);
+		manager.persist(usuario);
 		manager.getTransaction().commit();
 
 	}

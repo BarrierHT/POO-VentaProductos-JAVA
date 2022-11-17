@@ -2,8 +2,6 @@ package ar.edu.unju.escmi.poo.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,19 +20,20 @@ public class Factura implements Serializable {
 
 	private LocalDate fechaGeneracion;
 	private double total;
-	private Cliente cliente;
-	private List<Detalle> detalles = new ArrayList<Detalle>();
+	private Usuario usuario;
+//	private List<Detalle> detalles = new ArrayList<Detalle>();
 
 	public Factura() {
 
 	}
 
-	public Factura(Long nroFactura, LocalDate fechaGeneracion, double total, Cliente cliente, List<Detalle> detalles) {
+	public Factura(Long nroFactura, LocalDate fechaGeneracion, double total,
+			Usuario usuario/* , List<Detalle> detalles */) {
 		this.nroFactura = nroFactura;
 		this.fechaGeneracion = fechaGeneracion;
 		this.total = total;
-		this.cliente = cliente;
-		this.detalles = detalles;
+		this.usuario = usuario;
+//		this.detalles = detalles;
 	}
 
 	public Long getNroFactura() {
@@ -61,29 +60,29 @@ public class Factura implements Serializable {
 		this.total = total;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
-	public List<Detalle> getDetalles() {
-		return detalles;
-	}
+//	public List<Detalle> getDetalles() {
+//		return detalles;
+//	}
+//
+//	public void setDetalles(List<Detalle> detalles) {
+//		this.detalles = detalles;
+//	}
 
-	public void setDetalles(List<Detalle> detalles) {
-		this.detalles = detalles;
-	}
-
-	public double calcularTotal() {
-		double total = 0;
-		for (Detalle detalle : detalles) {
-			total += detalle.getImporte();
-		}
-		return total;
-	}
+//	public void calcularTotal() {
+//		
+//		for (Detalle detalle : detalles) {
+//			this.total += detalle.getImporte();
+//		}
+//		
+//	}
 
 	public Factura buscarFactura(long numeroFactura, long dni) {
 		return null;
@@ -91,10 +90,9 @@ public class Factura implements Serializable {
 
 	@Override
 	public String toString() {
-		return "\n\n******************** Factura ********************"
-				+ "\nFecha: " + fechaGeneracion + " N° de Factura: " + nroFactura
-				+ "\nCliente: " + cliente.getNombre() + " " + cliente.getApellido()
-				+ "\n************ Detalles de la Factura *************"
-				+ "\n" + detalles.toString().replaceAll("\\[|\\]", "").replaceAll(", ", "") + "\n";
+		return "\n\n******************** Factura ********************" + "\nFecha: " + fechaGeneracion
+				+ " N° de Factura: " + nroFactura + "\nUsuario: " + usuario.getNombre() + " " + usuario.getApellido()
+				+ "\n************ Detalles de la Factura *************" + "\n";
+//				+ detalles.toString().replaceAll("\\[|\\]", "").replaceAll(", ", "") + "\n";
 	}
 }

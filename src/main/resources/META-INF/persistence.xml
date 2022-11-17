@@ -5,7 +5,7 @@
 	<persistence-unit name="TestPersistence">
 	
 		<!-- <class> Entity Manager Class Name </class>  -->
-		<class>ar.edu.unju.escmi.models.Cliente</class>
+		<class>ar.edu.unju.escmi.models.Usuario</class>
 		<class>ar.edu.unju.escmi.models.Detalle</class>
 		<class>ar.edu.unju.escmi.models.Factura</class>
 		<class>ar.edu.unju.escmi.models.Producto</class>

@@ -2,6 +2,8 @@ package ar.edu.unju.escmi.poo.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,13 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
-@Table(name = "clientes")
-@NamedQuery(name = "listarClientes", query = "SELECT c FROM Cliente c")
-public class Cliente implements Serializable {
+@Table(name = "usuarios")
+@NamedQuery(name = "listarUsuarios", query = "SELECT c FROM Usuario c")
+public class Usuario implements Serializable {
 	@Id
 	// @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)
@@ -27,12 +26,13 @@ public class Cliente implements Serializable {
 	private String email;
 	private String password;
 	private LocalDate fechaNacimiento;
+//private Rol rol;
 
-	public Cliente() {
+	public Usuario() {
 
 	}
 
-	public Cliente(Long dni, String nombre, String apellido, String direccion, String email, String password,
+	public Usuario(Long dni, String nombre, String apellido, String direccion, String email, String password,
 			LocalDate fechaNacimiento) {
 		this.dni = dni;
 		this.nombre = nombre;

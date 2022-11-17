@@ -17,18 +17,18 @@ public class Producto implements Serializable {
 	private double precioUnitario;
 	private int descuento;
 	private String descripcion;
-	private Categoria categoria;
+//	private Categoria categoria;
 
 	public Producto() {
 
 	}
 
-	public Producto(int codigo, double precioUnitario, int descuento, String descripcion, Categoria categoria) {
+	public Producto(int codigo, double precioUnitario, int descuento, String descripcion/* , Categoria categoria */) {
 		this.codigo = codigo;
 		this.precioUnitario = precioUnitario;
 		this.descuento = descuento;
 		this.descripcion = descripcion;
-		this.categoria = categoria;
+//		this.categoria = categoria;
 	}
 
 	public int getCodigo() {
@@ -63,17 +63,17 @@ public class Producto implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public Categoria getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
+//	public Categoria getCategoria() {
+//		return categoria;
+//	}
+//
+//	public void setCategoria(Categoria categoria) {
+//		this.categoria = categoria;
+//	}
 
 	@Override
 	public String toString() {
 		return "Codigo: " + codigo + " Descripcion: " + descripcion + " Precio Unitario: " + precioUnitario
-				+ " Categoria: " + categoria;
+		/* + " Categoria: " + categoria */;
 	}
 }

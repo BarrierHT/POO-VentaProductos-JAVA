@@ -1,11 +1,12 @@
 package ar.edu.unju.escmi.poo;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 import javax.persistence.EntityManager;
 
 import ar.edu.unju.escmi.poo.config.EmfSingleton;
-import ar.edu.unju.escmi.poo.models.Cliente;
+import ar.edu.unju.escmi.poo.models.Usuario;
 
 public class Principal {
 
@@ -21,17 +22,17 @@ public class Principal {
 
 			option = -1;
 
-			// Cliente cliente = new Cliente((long) 123, "foo");
+			Usuario usuario = new Usuario((long) 123, "a", "b", "c", "d", "e", LocalDate.now());
 
-			// cliente.setNombre("bar");
+			usuario.setNombre("bar");
 
 			// MANERA 1
-			// IClienteDao clienteDao = new ClienteDaoImp();
-			// clienteDao.guardarCliente(cliente);
+			// IUsuarioDao usuarioDao = new UsuarioDaoImp();
+			// usuarioDao.guardarUsuario(usuario);
 
 			// MANERA2
 			manager.getTransaction().begin();
-			// manager.persist(cliente);
+			manager.persist(usuario);
 			manager.getTransaction().commit();
 
 			// credencial = "null";
