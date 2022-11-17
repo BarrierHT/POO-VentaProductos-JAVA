@@ -1,5 +1,9 @@
 package ar.edu.unju.escmi.poo.dao;
 
-public interface IClienteDao {
+import ar.edu.unju.escmi.poo.models.Cliente;
 
+public interface IClienteDao {
+	public Cliente obtenerCliente(Long dni);
+
+	public void guardarCliente(Cliente cliente);
 }
