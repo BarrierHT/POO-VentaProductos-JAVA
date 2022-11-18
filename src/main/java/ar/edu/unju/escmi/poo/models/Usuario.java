@@ -14,6 +14,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import ar.edu.unju.escmi.poo.dao.IFacturaDao;
+import ar.edu.unju.escmi.poo.dao.imp.FacturaDaoImp;
+
 @Entity
 @Table(name = "usuarios")
 @NamedQuery(name = "listarUsuarios", query = "SELECT c FROM Usuario c")
@@ -115,16 +118,19 @@ public class Usuario implements Serializable {
 	}
 
 	public List<Factura> consultarCompras() {
+
+		IFacturaDao facturaDao = new FacturaDaoImp();
+
+		List<Factura> facturas = facturaDao.obtenerFacturas();
+
+		System.out.println("Facturas size: " + facturas.size());
 		List<Factura> shoppingList = new ArrayList<Factura>();
-		// if (CollectionFactura.facturas != null) {
-		// for (Factura fac : CollectionFactura.facturas) {
-		// if (fac.getCliente().getDni() == this.dni) {
-		// shoppingList.add(fac);
-		// }
-		// }
-		// } else {
-		shoppingList = null;
-		// }
+
+		for (Factura factura : facturas) {
+			if (factura.getUsuario().getDni() == this.dni)
+				shoppingList.add(factura);
+		}
+
 		return shoppingList;
 	}
 
