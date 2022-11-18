@@ -1,25 +1,33 @@
 package ar.edu.unju.escmi.poo.dao.imp;
 
+import javax.persistence.EntityManager;
+
+import ar.edu.unju.escmi.poo.config.EmfSingleton;
 import ar.edu.unju.escmi.poo.dao.IStockDao;
 import ar.edu.unju.escmi.poo.models.Stock;
 
 public class StockDaoImp implements IStockDao {
 
+	private static EntityManager manager = EmfSingleton.getInstance().getEmf().createEntityManager();
+
 	@Override
 	public void guardarStock(Stock stock) {
-		// TODO Auto-generated method stub
+		manager.getTransaction().begin();
+		manager.persist(stock);
+		manager.getTransaction().commit();
 
 	}
 
 	@Override
 	public Stock obtenerStock(int idStock) {
-		// TODO Auto-generated method stub
-		return null;
+		return manager.find(Stock.class, idStock);
 	}
 
 	@Override
 	public void modificarStock(Stock stock) {
-		// TODO Auto-generated method stub
+		manager.getTransaction().begin();
+		manager.merge(stock);
+		manager.getTransaction().commit();
 
 	}
 }

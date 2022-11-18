@@ -8,7 +8,7 @@ public interface IFacturaDao {
 
     public void guardarFactura(Factura factura);
 
-    public Factura obtenerFactura(Long nroFactura, Long dni);
+    public Factura obtenerFactura(Long nroFactura);
 
     public List<Factura> obtenerFacturas();
 }

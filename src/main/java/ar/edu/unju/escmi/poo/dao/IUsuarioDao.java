@@ -11,4 +11,6 @@ public interface IUsuarioDao {
 	public Usuario obtenerUsuario(Long dni);
 
 	public List<Usuario> obtenerUsuarios();
+
+	public void modificarUsuario(Usuario usuario);
 }

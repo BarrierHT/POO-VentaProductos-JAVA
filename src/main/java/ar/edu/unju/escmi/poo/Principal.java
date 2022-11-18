@@ -26,10 +26,11 @@ public class Principal {
 
 			option = -1;
 
-//			Usuario usuario = new Usuario((long) 12345, "a", "b", "c", "d", "e", LocalDate.now(), new Rol(2, null));
+			// Usuario usuario = new Usuario((long) 12345, "a", "b", "c", "d", "e",
+			// LocalDate.now(), new Rol(2, null));
 			// Al ingresar el id del rol, tiene que ser una id que exista ya en la bd
 
-//			usuario.setNombre("bar");
+			// usuario.setNombre("bar");
 
 			// MANERA 1
 			// IUsuarioDao usuarioDao = new UsuarioDaoImp();
@@ -37,9 +38,9 @@ public class Principal {
 
 			// MANERA2
 
-//			manager.getTransaction().begin();
-//			manager.persist(usuario);
-//			manager.getTransaction().commit();
+			// manager.getTransaction().begin();
+			// manager.persist(usuario);
+			// manager.getTransaction().commit();
 
 			System.out.println("\n Ingreso de Credenciales");
 			System.out.println("\n Ingrese E-Mail");
@@ -47,8 +48,8 @@ public class Principal {
 			System.out.println("\n Ingreso Contrasena");
 			password = scanner.next();
 
-//corroborar si email y passw concuerdan a un usuario registrado		
-//ToDo 	if(email && password) {}
+			// corroborar si email y passw concuerdan a un usuario registrado
+			// ToDo if(email && password) {}
 
 			System.out.println("\nMenu Principal");
 			System.out.println("1- Alta de cliente");
@@ -152,31 +153,31 @@ public class Principal {
 
 			} else if (option == 3) {
 
-//                List<Usuario> usuarios = CollectionProducto.productos;
-//
-//                for (Usuario usu : usuarios) {
-//
-//                    Usuario cliente = CollectionStock.buscarStock(pro);
-//
-//                    if (cliente.getClass() > 0) {
-//                        System.out.println("\n" + usu.toString());
-//                    }
-//                }
+				// List<Usuario> usuarios = CollectionProducto.productos;
+				//
+				// for (Usuario usu : usuarios) {
+				//
+				// Usuario cliente = CollectionStock.buscarStock(pro);
+				//
+				// if (cliente.getClass() > 0) {
+				// System.out.println("\n" + usu.toString());
+				// }
+				// }
 
 				System.out.println("\nOpcion de Listado de Clientes Finalizada");
 
 			} else if (option == 4) {
 
-//                List<Factura> facturas = CollectionProducto.productos;
+				// List<Factura> facturas = CollectionProducto.productos;
 
-//                for (Factura fac : facturas) {
-//
-//                    Stock stock = CollectionStock.buscarStock(pro);
-//
-//                    if (stock.getCantidad() > 0) {
-//                        System.out.println("\n" + fac.toString());
-//                    }
-//                }
+				// for (Factura fac : facturas) {
+				//
+				// Stock stock = CollectionStock.buscarStock(pro);
+				//
+				// if (stock.getCantidad() > 0) {
+				// System.out.println("\n" + fac.toString());
+				// }
+				// }
 
 				System.out.println("\nOpcion de Listado de Facturas Finalizada");
 
