@@ -1,5 +1,7 @@
 package ar.edu.unju.escmi.poo.dao.imp;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import ar.edu.unju.escmi.poo.config.EmfSingleton;
@@ -23,4 +25,9 @@ public class UsuarioDaoImp implements IUsuarioDao {
 
 	}
 
+	@Override
+	public List<Usuario> obtenerUsuarios() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

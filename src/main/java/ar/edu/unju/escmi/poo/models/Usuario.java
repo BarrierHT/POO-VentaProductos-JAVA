@@ -26,7 +26,7 @@ public class Usuario implements Serializable {
 	private String email;
 	private String password;
 	private LocalDate fechaNacimiento;
-//private Rol rol;
+	// private Rol rol;
 
 	public Usuario() {
 

@@ -21,7 +21,7 @@ public class Factura implements Serializable {
 	private LocalDate fechaGeneracion;
 	private double total;
 	private Usuario usuario;
-//	private List<Detalle> detalles = new ArrayList<Detalle>();
+	// private List<Detalle> detalles = new ArrayList<Detalle>();
 
 	public Factura() {
 
@@ -33,7 +33,7 @@ public class Factura implements Serializable {
 		this.fechaGeneracion = fechaGeneracion;
 		this.total = total;
 		this.usuario = usuario;
-//		this.detalles = detalles;
+		// this.detalles = detalles;
 	}
 
 	public Long getNroFactura() {
@@ -68,31 +68,27 @@ public class Factura implements Serializable {
 		this.usuario = usuario;
 	}
 
-//	public List<Detalle> getDetalles() {
-//		return detalles;
-//	}
-//
-//	public void setDetalles(List<Detalle> detalles) {
-//		this.detalles = detalles;
-//	}
+	// public List<Detalle> getDetalles() {
+	// return detalles;
+	// }
+	//
+	// public void setDetalles(List<Detalle> detalles) {
+	// this.detalles = detalles;
+	// }
 
-//	public void calcularTotal() {
-//		
-//		for (Detalle detalle : detalles) {
-//			this.total += detalle.getImporte();
-//		}
-//		
-//	}
-
-	public Factura buscarFactura(long numeroFactura, long dni) {
-		return null;
-	}
+	// public void calcularTotal() {
+	//
+	// for (Detalle detalle : detalles) {
+	// this.total += detalle.getImporte();
+	// }
+	//
+	// }
 
 	@Override
 	public String toString() {
 		return "\n\n******************** Factura ********************" + "\nFecha: " + fechaGeneracion
 				+ " N° de Factura: " + nroFactura + "\nUsuario: " + usuario.getNombre() + " " + usuario.getApellido()
 				+ "\n************ Detalles de la Factura *************" + "\n";
-//				+ detalles.toString().replaceAll("\\[|\\]", "").replaceAll(", ", "") + "\n";
+		// + detalles.toString().replaceAll("\\[|\\]", "").replaceAll(", ", "") + "\n";
 	}
 }

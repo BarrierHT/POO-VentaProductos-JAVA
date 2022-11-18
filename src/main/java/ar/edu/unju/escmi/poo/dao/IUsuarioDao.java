@@ -1,9 +1,14 @@
 package ar.edu.unju.escmi.poo.dao;
 
+import java.util.List;
+
 import ar.edu.unju.escmi.poo.models.Usuario;
 
 public interface IUsuarioDao {
+
+	public void guardarUsuario(Usuario usuario);
+
 	public Usuario obtenerUsuario(Long dni);
 
-	public void guardarUsuario(Usuario cliente);
+	public List<Usuario> obtenerUsuarios();
 }
