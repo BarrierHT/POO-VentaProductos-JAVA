@@ -20,8 +20,7 @@ public class Categoria {
 
 	}
 
-	public Categoria(int id, String tipo) {
-		this.id = id;
+	public Categoria(String tipo) {
 		this.tipo = tipo;
 	}
 

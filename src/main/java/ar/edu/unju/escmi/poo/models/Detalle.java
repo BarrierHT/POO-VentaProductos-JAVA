@@ -35,9 +35,7 @@ public class Detalle implements Serializable {
 
 	}
 
-	public Detalle(Long id, int cantidad, double importe, Producto producto, Factura factura) {
-		super();
-		this.id = id;
+	public Detalle(int cantidad, double importe, Producto producto, Factura factura) {
 		this.cantidad = cantidad;
 		this.importe = importe;
 		this.producto = producto;

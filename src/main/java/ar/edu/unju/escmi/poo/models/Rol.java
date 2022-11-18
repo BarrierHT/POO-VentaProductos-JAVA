@@ -20,8 +20,7 @@ public class Rol {
 
 	}
 
-	public Rol(int id, String tipo) {
-		this.id = id;
+	public Rol(String tipo) {
 		this.tipo = tipo;
 	}
 

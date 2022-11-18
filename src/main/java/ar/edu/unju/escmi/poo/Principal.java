@@ -26,6 +26,11 @@ public class Principal {
 
 			option = -1;
 
+//			Rol rol = new Rol("newrol");
+//			manager.getTransaction().begin();
+//			manager.persist(rol);
+//			manager.getTransaction().commit();
+
 			// Usuario usuario = new Usuario((long) 12345, "a", "b", "c", "d", "e",
 			// LocalDate.now(), new Rol(2, null));
 			// Al ingresar el id del rol, tiene que ser una id que exista ya en la bd
