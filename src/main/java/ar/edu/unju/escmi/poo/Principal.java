@@ -2,211 +2,208 @@ package ar.edu.unju.escmi.poo;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Scanner;
 
 import javax.persistence.EntityManager;
 
 import ar.edu.unju.escmi.poo.config.EmfSingleton;
-import ar.edu.unju.escmi.poo.models.Factura;
 import ar.edu.unju.escmi.poo.models.Rol;
-import ar.edu.unju.escmi.poo.models.Stock;
 import ar.edu.unju.escmi.poo.models.Usuario;
 
 public class Principal {
 
-    private static EntityManager manager = EmfSingleton.getInstance().getEmf().createEntityManager();
+	private static EntityManager manager = EmfSingleton.getInstance().getEmf().createEntityManager();
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
-        int option;
-        String credencial;
+		Scanner scanner = new Scanner(System.in);
+		int option;
+		boolean credencial = false;
 
-        do {
+		String email, password;
 
-            option = -1;
+		do {
 
-            Usuario usuario = new Usuario((long) 123, "a", "b", "c", "d", "e", LocalDate.now());
+			option = -1;
 
-            usuario.setNombre("bar");
+//			Usuario usuario = new Usuario((long) 12345, "a", "b", "c", "d", "e", LocalDate.now(), new Rol(2, null));
+			// Al ingresar el id del rol, tiene que ser una id que exista ya en la bd
 
-            // MANERA 1
-            // IUsuarioDao usuarioDao = new UsuarioDaoImp();
-            // usuarioDao.guardarUsuario(usuario);
+//			usuario.setNombre("bar");
 
-            // MANERA2
-            manager.getTransaction().begin();
-            manager.persist(usuario);
-            manager.getTransaction().commit();
+			// MANERA 1
+			// IUsuarioDao usuarioDao = new UsuarioDaoImp();
+			// usuarioDao.guardarUsuario(usuario);
 
-            credencial = "null";
+			// MANERA2
 
-            System.out.println("\n Ingreso de Credenciales");
-            System.out.println("\n Ingrese E-Mail");
-            credencial = scanner.next();
-            System.out.println("\n Ingreso Contrasena");
-            credencial = scanner.next();
+//			manager.getTransaction().begin();
+//			manager.persist(usuario);
+//			manager.getTransaction().commit();
 
-            System.out.println("\nMenu Principal");
-            System.out.println("1- Alta de cliente");
-            System.out.println("2- Venta (se genera venta)");
-            System.out.println("3- Listado de clientes");
-            System.out.println("4- Listado de facturas");
-            System.out.println("5- Buscar Factura por numero de factura");
+			System.out.println("\n Ingreso de Credenciales");
+			System.out.println("\n Ingrese E-Mail");
+			email = scanner.next();
+			System.out.println("\n Ingreso Contrasena");
+			password = scanner.next();
 
-            System.out.println("6- Buscar Factura por numero de factura");
-            System.out.println("7- Listar todas sus facturas");
-            System.out.println("8- Salir");
+//corroborar si email y passw concuerdan a un usuario registrado		
+//ToDo 	if(email && password) {}
 
-            System.out.println("Ingrese su opcion: ");
+			System.out.println("\nMenu Principal");
+			System.out.println("1- Alta de cliente");
+			System.out.println("2- Venta (se genera venta)");
+			System.out.println("3- Listado de clientes");
+			System.out.println("4- Listado de facturas");
+			System.out.println("5- Buscar Factura por numero de factura");
 
-            try {
-                option = scanner.nextInt();
-            } catch (Exception e) {
-                scanner.next();
-                System.out.println("\nINGRESE UN NUMERO");
-            }
+			System.out.println("6- Buscar Factura por numero de factura");
+			System.out.println("7- Listar todas sus facturas");
+			System.out.println("8- Salir");
 
-            if (option == 1) {
+			System.out.println("Ingrese su opcion: ");
 
-                // System.out.println("\nIngrese DNI del cliente: ");
-                // long idCard = -1;
+			try {
+				option = scanner.nextInt();
+			} catch (Exception e) {
+				scanner.next();
+				System.out.println("\nINGRESE UN NUMERO");
+			}
 
-                // try {
-                // idCard = scanner.nextLong();
-                // } catch (Exception e) {
-                // scanner.next();
-                // System.out.println("\nINGRESE UN NUMERO");
-                // }
+			if (option == 1) {
 
-                Rol rolDeAlta = new Rol();
-                Usuario usuarioDeAlta = new Usuario();
-                String descripcionRol = null;
-                int dia = 0, mes = 0, anio = 0;
-                String nombreDeAlta = null, apellidoDeAlta = null, domicilioDeAlta = null;
-                Long dniDeAlta = null;
-                boolean band = true;
-                LocalDate fechaNacimientoDeAlta;
-                try {
-                    System.out.println("Ingrese el Nombre del usuario: ");
-                    nombreDeAlta = scanner.next();
-                    try {
-                        System.out.println("Ingrese el Apellido del usuario: ");
-                        apellidoDeAlta = scanner.next();
-                        try {
-                            System.out.println("Ingrese el DNI del usuario: ");
-                            dniDeAlta = scanner.nextLong();
-                            try {
-                                System.out.println("Ingrese el Domicilio del usuario: ");
-                                domicilioDeAlta = scanner.next();
-                                try {
-                                    System.out.println("Ingrese la Fecha de Nacimiento del usuario : ");
-                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-                                    String dateString = scanner.next();
-                                    fechaNacimientoDeAlta = LocalDate.parse(dateString, formatter); // se toma el dato
-                                                                                                    // como string y se
-                                                                                                    // formate a
-                                                                                                    // LocalDate
-                                } catch (Exception e) {
-                                    scanner.nextLine();
-                                    System.out.println("\nIngrese una Fecha de Nacimiento posible");
-                                    band = false;
-                                }
-                            } catch (Exception e) {
-                                scanner.nextLine();
-                                System.out.println("\nIngrese un Domicilio posible");
-                                band = false;
-                            }
-                        } catch (Exception e) {
-                            scanner.nextLine();
-                            System.out.println("\nIngrese un DNI posible");
-                            band = false;
-                        }
-                    } catch (Exception e) {
-                        scanner.nextLine();
-                        System.out.println("\nIngrese un Apellido posible");
-                        band = false;
-                    }
-                } catch (Exception e) {
-                    scanner.nextLine();
-                    System.out.println("\nIngrese un Nombre posible");
-                    band = false;
-                }
+				// System.out.println("\nIngrese DNI del cliente: ");
+				// long idCard = -1;
 
-                if (band) {
+				// try {
+				// idCard = scanner.nextLong();
+				// } catch (Exception e) {
+				// scanner.next();
+				// System.out.println("\nINGRESE UN NUMERO");
+				// }
 
-                    usuarioDeAlta.setNombre(nombreDeAlta);
-                    usuarioDeAlta.setApellido(apellidoDeAlta);
-                    usuarioDeAlta.setDni(dniDeAlta);
-                    usuarioDeAlta.setEmail(domicilioDeAlta);
-                    usuarioDeAlta.setFechaNacimiento(fechaNacimientoDeAlta);
-                }
+				Rol rolDeAlta = new Rol();
+				Usuario usuarioDeAlta = new Usuario();
+				String descripcionRol = null;
+				int dia = 0, mes = 0, anio = 0;
+				String nombreDeAlta = null, apellidoDeAlta = null, domicilioDeAlta = null;
+				Long dniDeAlta = null;
+				boolean band = true;
+				LocalDate fechaNacimientoDeAlta = LocalDate.now();
+				try {
+					System.out.println("Ingrese el Nombre del usuario: ");
+					nombreDeAlta = scanner.next();
+					try {
+						System.out.println("Ingrese el Apellido del usuario: ");
+						apellidoDeAlta = scanner.next();
+						try {
+							System.out.println("Ingrese el DNI del usuario: ");
+							dniDeAlta = scanner.nextLong();
+							try {
+								System.out.println("Ingrese el Domicilio del usuario: ");
+								domicilioDeAlta = scanner.next();
+								try {
+									System.out.println("Ingrese la Fecha de Nacimiento del usuario : ");
+									DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+									String dateString = scanner.next();
+									fechaNacimientoDeAlta = LocalDate.parse(dateString, formatter); // se toma el dato
+																									// como string y se
+																									// formate a
+																									// LocalDate
+								} catch (Exception e) {
+									scanner.nextLine();
+									System.out.println("\nIngrese una Fecha de Nacimiento posible");
+									band = false;
+								}
+							} catch (Exception e) {
+								scanner.nextLine();
+								System.out.println("\nIngrese un Domicilio posible");
+								band = false;
+							}
+						} catch (Exception e) {
+							scanner.nextLine();
+							System.out.println("\nIngrese un DNI posible");
+							band = false;
+						}
+					} catch (Exception e) {
+						scanner.nextLine();
+						System.out.println("\nIngrese un Apellido posible");
+						band = false;
+					}
+				} catch (Exception e) {
+					scanner.nextLine();
+					System.out.println("\nIngrese un Nombre posible");
+					band = false;
+				}
 
-                System.out.println("\nOpcion de Alta de Cliente Finalizada");
-            } else if (option == 2) {
+				if (band) {
 
-                System.out.println("\nOpcion de Venta Finalizada");
-                break;
+					usuarioDeAlta.setNombre(nombreDeAlta);
+					usuarioDeAlta.setApellido(apellidoDeAlta);
+					usuarioDeAlta.setDni(dniDeAlta);
+					usuarioDeAlta.setEmail(domicilioDeAlta);
+					usuarioDeAlta.setFechaNacimiento(fechaNacimientoDeAlta);
+				}
 
-            } else if (option == 3) {
+				System.out.println("\nOpcion de Alta de Cliente Finalizada");
+			} else if (option == 2) {
 
-                List<Usuario> usuarios = CollectionProducto.productos;
+				System.out.println("\nOpcion de Venta Finalizada");
 
-                for (Usuario usu : usuarios) {
+			} else if (option == 3) {
 
-                    Usuario cliente = CollectionStock.buscarStock(pro);
+//                List<Usuario> usuarios = CollectionProducto.productos;
+//
+//                for (Usuario usu : usuarios) {
+//
+//                    Usuario cliente = CollectionStock.buscarStock(pro);
+//
+//                    if (cliente.getClass() > 0) {
+//                        System.out.println("\n" + usu.toString());
+//                    }
+//                }
 
-                    if (cliente.getClass() > 0) {
-                        System.out.println("\n" + usu.toString());
-                    }
-                }
+				System.out.println("\nOpcion de Listado de Clientes Finalizada");
 
-                System.out.println("\nOpcion de Listado de Clientes Finalizada");
-                break;
+			} else if (option == 4) {
 
-            } else if (option == 4) {
+//                List<Factura> facturas = CollectionProducto.productos;
 
-                List<Factura> facturas = CollectionProducto.productos;
+//                for (Factura fac : facturas) {
+//
+//                    Stock stock = CollectionStock.buscarStock(pro);
+//
+//                    if (stock.getCantidad() > 0) {
+//                        System.out.println("\n" + fac.toString());
+//                    }
+//                }
 
-                for (Factura fac : facturas) {
+				System.out.println("\nOpcion de Listado de Facturas Finalizada");
 
-                    Stock stock = CollectionStock.buscarStock(pro);
+			} else if (option == 5) {
 
-                    if (stock.getCantidad() > 0) {
-                        System.out.println("\n" + fac.toString());
-                    }
-                }
+				System.out.println("\nOpcion de Buscar Factura por numero Finalizada");
 
-                System.out.println("\nOpcion de Listado de Facturas Finalizada");
-                break;
+			} else if (option == 6) {
 
-            } else if (option == 5) {
+				System.out.println("\nOpcion de Buscar Factura por numero Finalizada");
 
-                System.out.println("\nOpcion de Buscar Factura por numero Finalizada");
-                break;
+			} else if (option == 7) {
 
-            } else if (option == 6) {
+				System.out.println("\nOpcion de Listado de todas las Facturas Finalizada");
 
-                System.out.println("\nOpcion de Buscar Factura por numero Finalizada");
-                break;
+			} else if (option == 8) {
 
-            } else if (option == 7) {
+				System.out.println("\nHa salido correctamente del programa");
+				break;
 
-                System.out.println("\nOpcion de Listado de todas las Facturas Finalizada");
-                break;
+			} else
+				System.out.println("\nOpcion incorrecta");
 
-            } else if (option == 8) {
+			System.out.println("\n\n\n");
 
-                System.out.println("\nHa salido correctamente del programa");
-                break;
+		} while (1 == 1);
 
-            } else
-                System.out.println("\nOpcion incorrecta");
-            break;
-
-        } while (1 == 1);
-
-        scanner.close();
-    }
+		scanner.close();
+	}
 }

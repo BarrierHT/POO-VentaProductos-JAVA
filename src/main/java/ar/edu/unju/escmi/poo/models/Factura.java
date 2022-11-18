@@ -2,12 +2,18 @@ package ar.edu.unju.escmi.poo.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,20 +26,24 @@ public class Factura implements Serializable {
 
 	private LocalDate fechaGeneracion;
 	private double total;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
-	// private List<Detalle> detalles = new ArrayList<Detalle>();
+
+	@OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+	private List<Detalle> detalles = new ArrayList<Detalle>();
 
 	public Factura() {
 
 	}
 
-	public Factura(Long nroFactura, LocalDate fechaGeneracion, double total,
-			Usuario usuario/* , List<Detalle> detalles */) {
+	public Factura(Long nroFactura, LocalDate fechaGeneracion, double total, Usuario usuario, List<Detalle> detalles) {
 		this.nroFactura = nroFactura;
 		this.fechaGeneracion = fechaGeneracion;
 		this.total = total;
 		this.usuario = usuario;
-		// this.detalles = detalles;
+		this.detalles = detalles;
 	}
 
 	public Long getNroFactura() {
@@ -68,27 +78,27 @@ public class Factura implements Serializable {
 		this.usuario = usuario;
 	}
 
-	// public List<Detalle> getDetalles() {
-	// return detalles;
-	// }
-	//
-	// public void setDetalles(List<Detalle> detalles) {
-	// this.detalles = detalles;
-	// }
+	public List<Detalle> getDetalles() {
+		return detalles;
+	}
 
-	// public void calcularTotal() {
-	//
-	// for (Detalle detalle : detalles) {
-	// this.total += detalle.getImporte();
-	// }
-	//
-	// }
+	public void setDetalles(List<Detalle> detalles) {
+		this.detalles = detalles;
+	}
+
+	public void calcularTotal() {
+
+		for (Detalle detalle : detalles) {
+			this.total += detalle.getImporte();
+		}
+
+	}
 
 	@Override
 	public String toString() {
 		return "\n\n******************** Factura ********************" + "\nFecha: " + fechaGeneracion
 				+ " N° de Factura: " + nroFactura + "\nUsuario: " + usuario.getNombre() + " " + usuario.getApellido()
-				+ "\n************ Detalles de la Factura *************" + "\n";
-		// + detalles.toString().replaceAll("\\[|\\]", "").replaceAll(", ", "") + "\n";
+				+ "\n************ Detalles de la Factura *************" + "\n"
+				+ detalles.toString().replaceAll("\\[|\\]", "").replaceAll(", ", "") + "\n";
 	}
 }

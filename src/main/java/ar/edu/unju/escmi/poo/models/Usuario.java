@@ -7,8 +7,11 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -26,14 +29,17 @@ public class Usuario implements Serializable {
 	private String email;
 	private String password;
 	private LocalDate fechaNacimiento;
-	// private Rol rol;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "rol_id")
+	private Rol rol;
 
 	public Usuario() {
 
 	}
 
 	public Usuario(Long dni, String nombre, String apellido, String direccion, String email, String password,
-			LocalDate fechaNacimiento) {
+			LocalDate fechaNacimiento, Rol rol) {
+		super();
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -41,6 +47,7 @@ public class Usuario implements Serializable {
 		this.email = email;
 		this.password = password;
 		this.fechaNacimiento = fechaNacimiento;
+		this.rol = rol;
 	}
 
 	public Long getDni() {
@@ -91,6 +98,14 @@ public class Usuario implements Serializable {
 		this.password = password;
 	}
 
+	public Rol getRol() {
+		return rol;
+	}
+
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
+
 	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
@@ -112,4 +127,12 @@ public class Usuario implements Serializable {
 		// }
 		return shoppingList;
 	}
+
+	@Override
+	public String toString() {
+		return "Usuario [dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", direccion=" + direccion
+				+ ", email=" + email + ", password=" + password + ", fechaNacimiento=" + fechaNacimiento + ", rol="
+				+ rol.getTipo() + "]";
+	}
+
 }

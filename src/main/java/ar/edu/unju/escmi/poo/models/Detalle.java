@@ -4,9 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,17 +23,25 @@ public class Detalle implements Serializable {
 
 	private int cantidad;
 	private double importe;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "producto_id")
 	private Producto producto;
+
+	@ManyToOne
+	@JoinColumn(name = "factura_id")
+	private Factura factura;
 
 	public Detalle() {
 
 	}
 
-	public Detalle(Long id, int cantidad, double importe, Producto producto) {
+	public Detalle(Long id, int cantidad, double importe, Producto producto, Factura factura) {
+		super();
 		this.id = id;
 		this.cantidad = cantidad;
 		this.importe = importe;
 		this.producto = producto;
+		this.factura = factura;
 	}
 
 	public Long getId() {
@@ -54,6 +66,14 @@ public class Detalle implements Serializable {
 
 	public void setImporte(double importe) {
 		this.importe = importe;
+	}
+
+	public Factura getFactura() {
+		return factura;
+	}
+
+	public void setFactura(Factura factura) {
+		this.factura = factura;
 	}
 
 	public Producto getProducto() {

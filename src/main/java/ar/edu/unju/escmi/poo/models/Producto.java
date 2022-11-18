@@ -4,7 +4,10 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,18 +20,21 @@ public class Producto implements Serializable {
 	private double precioUnitario;
 	private int descuento;
 	private String descripcion;
-//	private Categoria categoria;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "categoria_id")
+	private Categoria categoria;
 
 	public Producto() {
 
 	}
 
-	public Producto(int codigo, double precioUnitario, int descuento, String descripcion/* , Categoria categoria */) {
+	public Producto(int codigo, double precioUnitario, int descuento, String descripcion, Categoria categoria) {
 		this.codigo = codigo;
 		this.precioUnitario = precioUnitario;
 		this.descuento = descuento;
 		this.descripcion = descripcion;
-//		this.categoria = categoria;
+		this.categoria = categoria;
 	}
 
 	public int getCodigo() {
@@ -63,17 +69,17 @@ public class Producto implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-//	public Categoria getCategoria() {
-//		return categoria;
-//	}
-//
-//	public void setCategoria(Categoria categoria) {
-//		this.categoria = categoria;
-//	}
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
 
 	@Override
 	public String toString() {
 		return "Codigo: " + codigo + " Descripcion: " + descripcion + " Precio Unitario: " + precioUnitario
-		/* + " Categoria: " + categoria */;
+				+ " Categoria: " + categoria.getTipo();
 	}
 }

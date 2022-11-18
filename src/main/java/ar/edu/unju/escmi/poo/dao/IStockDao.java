@@ -4,8 +4,10 @@ import ar.edu.unju.escmi.poo.models.Stock;
 
 public interface IStockDao {
 
-    public void guardarStock(Stock stock);
+	public void guardarStock(Stock stock);
 
-    public Stock obtenerStock(int idStock);
+	public Stock obtenerStock(int idStock);
+
+	public void modificarStock(Stock stock);
 
 }
