@@ -7,6 +7,7 @@ import java.util.Scanner;
 import javax.persistence.EntityManager;
 
 import ar.edu.unju.escmi.poo.config.EmfSingleton;
+import ar.edu.unju.escmi.poo.models.Factura;
 import ar.edu.unju.escmi.poo.models.Rol;
 import ar.edu.unju.escmi.poo.models.Usuario;
 
@@ -135,35 +136,59 @@ public class Principal {
                      usuarioDeAlta.setDni(dniDeAlta);
                      usuarioDeAlta.setEmail(domicilioDeAlta);
                      usuarioDeAlta.setFechaNacimiento(fechaNacimientoDeAlta);
-
+                 }
+                 
+         		 System.out.println("\nOpcion de Alta de Cliente Finalizada");
                  } else if (option == 2) {
          		
-         		 System.out.println("\nHa salido correctamente del programa");
+         		 System.out.println("\nOpcion de Venta Finalizada");
          		 break;
          		
                  } else if (option == 3) {
               		
-             		 System.out.println("\nHa salido correctamente del programa");
+                	 List<Usuario> usuarios = CollectionProducto.productos;
+
+                     for (Usuario usu : usuarios) {
+
+                         Usuario cliente = CollectionStock.buscarStock(pro);
+
+                         if (cliente.getClass() > 0) {
+                             System.out.println("\n" + usu.toString());
+                         }
+                     }
+                	 
+             		 System.out.println("\nOpcion de Listado de Clientes Finalizada");
              		 break;
              		 
                  } else if (option == 4) {
+                	 
+                	 List<Factura> facturas = CollectionProducto.productos;
+
+                     for (Factura fac : facturas) {
+
+                         Stock stock = CollectionStock.buscarStock(pro);
+
+                         if (stock.getCantidad() > 0) {
+                             System.out.println("\n" + fac.toString());
+                         }
+                     }
               		
-             		 System.out.println("\nHa salido correctamente del programa");
+             		 System.out.println("\nOpcion de Listado de Facturas Finalizada");
              		 break;
              		 
                  } else if (option == 5) {
               		
-             		 System.out.println("\nHa salido correctamente del programa");
+             		 System.out.println("\nOpcion de Buscar Factura por numero Finalizada");
              		 break;
              		 
                  } else if (option == 6) {
               		
-             		 System.out.println("\nHa salido correctamente del programa");
+             		 System.out.println("\nOpcion de Buscar Factura por numero Finalizada");
              		 break;
              		 
                  } else if (option == 7) {
               		
-             		 System.out.println("\nHa salido correctamente del programa");
+             		 System.out.println("\nOpcion de Listado de todas las Facturas Finalizada");
              		 break;
 			
                  } else if (option == 8) {
