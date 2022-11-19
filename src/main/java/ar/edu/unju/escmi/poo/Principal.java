@@ -2,11 +2,21 @@ package ar.edu.unju.escmi.poo;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import ar.edu.unju.escmi.poo.config.EmfSingleton;
+import ar.edu.unju.escmi.poo.dao.IDetalleDao;
+import ar.edu.unju.escmi.poo.dao.IFacturaDao;
+import ar.edu.unju.escmi.poo.dao.IUsuarioDao;
+import ar.edu.unju.escmi.poo.dao.imp.DetalleDaoImp;
+import ar.edu.unju.escmi.poo.dao.imp.FacturaDaoImp;
+import ar.edu.unju.escmi.poo.dao.imp.UsuarioDaoImp;
+import ar.edu.unju.escmi.poo.models.Detalle;
+import ar.edu.unju.escmi.poo.models.Factura;
 import ar.edu.unju.escmi.poo.models.Rol;
 import ar.edu.unju.escmi.poo.models.Usuario;
 
@@ -22,14 +32,32 @@ public class Principal {
 
 		String email, password;
 
+		IUsuarioDao usuarioDao = new UsuarioDaoImp();
+		IDetalleDao detalleDao = new DetalleDaoImp();
+		IFacturaDao facturaDao = new FacturaDaoImp();
+
+		// Muestra los detalles del nroFactura que ingreses (mirar imp)
+		// System.out.println(detalleDao.obtenerDetalles((long) 1).toString());
+
+		// Factura de test (crear usuario y detalles)
+
+		// Factura bill = new Factura(LocalDate.now(), 20,
+		// usuarioDao.obtenerUsuario((long) 123),
+		// detalleDao.obtenerDetalles((long) 1));
+
+		// facturaDao.guardarFactura(bill);
+
+		// Test de que los detalles se cargaron bien
+		// System.out.println(facturaDao.obtenerFactura((long) 2).toString());
+
 		do {
 
 			option = -1;
 
-//			Rol rol = new Rol("newrol");
-//			manager.getTransaction().begin();
-//			manager.persist(rol);
-//			manager.getTransaction().commit();
+			// Rol rol = new Rol("newrol");
+			// manager.getTransaction().begin();
+			// manager.persist(rol);
+			// manager.getTransaction().commit();
 
 			// Usuario usuario = new Usuario((long) 12345, "a", "b", "c", "d", "e",
 			// LocalDate.now(), new Rol(2, null));
