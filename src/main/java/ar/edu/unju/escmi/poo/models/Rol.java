@@ -17,7 +17,10 @@ public class Rol {
 	private String tipo;
 
 	public Rol() {
+	}
 
+	public Rol(int id) {
+		this.id = id;
 	}
 
 	public Rol(String tipo) {

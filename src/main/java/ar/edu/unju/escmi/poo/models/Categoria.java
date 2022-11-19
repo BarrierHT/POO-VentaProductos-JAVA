@@ -20,6 +20,10 @@ public class Categoria {
 
 	}
 
+	public Categoria(int id) {
+		this.id = id;
+	}
+
 	public Categoria(String tipo) {
 		this.tipo = tipo;
 	}

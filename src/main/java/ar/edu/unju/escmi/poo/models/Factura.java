@@ -38,6 +38,10 @@ public class Factura implements Serializable {
 
 	}
 
+	public Factura(Long nroFactura) {
+		this.nroFactura = nroFactura;
+	}
+
 	public Factura(LocalDate fechaGeneracion, double total, Usuario usuario, List<Detalle> detalles) {
 		this.fechaGeneracion = fechaGeneracion;
 		this.total = total;

@@ -28,6 +28,11 @@ public class Stock implements Serializable {
 
 	}
 
+	public Stock(int id) {
+
+		this.id = id;
+	}
+
 	public Stock(int cantidad, Producto producto) {
 		this.cantidad = cantidad;
 		this.producto = producto;
