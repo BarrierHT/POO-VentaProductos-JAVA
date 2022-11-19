@@ -1,7 +1,6 @@
 package ar.edu.unju.escmi.poo;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,6 +13,7 @@ import ar.edu.unju.escmi.poo.dao.IUsuarioDao;
 import ar.edu.unju.escmi.poo.dao.imp.DetalleDaoImp;
 import ar.edu.unju.escmi.poo.dao.imp.FacturaDaoImp;
 import ar.edu.unju.escmi.poo.dao.imp.UsuarioDaoImp;
+import ar.edu.unju.escmi.poo.models.Rol;
 import ar.edu.unju.escmi.poo.models.Usuario;
 
 public class Principal {
@@ -122,12 +122,14 @@ public class Principal {
 
 					if (option == 1) {
 
-						String descripcionRol = null;
+						int rolId = 1;
 						int dia = 0, mes = 0, anio = 0;
-						String nombreDeAlta = null, apellidoDeAlta = null, domicilioDeAlta = null;
-						Long dniDeAlta = null;
+						String nombreDeAlta = "", apellidoDeAlta = "", domicilioDeAlta = "";
+						String emailAlta = "", passwordAlta = "";
+						Long dniDeAlta = (long) 0;
 						boolean band = true;
 						LocalDate fechaNacimientoDeAlta = LocalDate.now();
+
 						try {
 							System.out.println("Ingrese el Nombre del usuario: ");
 							nombreDeAlta = scanner.next();
@@ -142,12 +144,9 @@ public class Principal {
 										domicilioDeAlta = scanner.next();
 										try {
 											System.out.println("Ingrese la Fecha de Nacimiento del usuario : ");
-											DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+//											DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
 											String dateString = scanner.next();
-											fechaNacimientoDeAlta = LocalDate.parse(dateString, formatter); // se
-																											// formatea
-																											// a
-																											// LocalDate
+											fechaNacimientoDeAlta = LocalDate.parse(dateString);
 
 										} catch (Exception e) {
 											scanner.nextLine();
@@ -175,14 +174,31 @@ public class Principal {
 							band = false;
 						}
 
-						if (band) {
-
-//							usuarioDeAlta.setNombre(nombreDeAlta);
-//							usuarioDeAlta.setApellido(apellidoDeAlta);
-//							usuarioDeAlta.setDni(dniDeAlta);
-//							usuarioDeAlta.setEmail(domicilioDeAlta);
-//							usuarioDeAlta.setFechaNacimiento(fechaNacimientoDeAlta);
+						try {
+							System.out.println("\nDigite el email del cliente a ingresar: ");
+							emailAlta = scanner.next();
+							System.out.println("Digite la contraseña del cliente a ingresar: ");
+							passwordAlta = scanner.next();
+						} catch (Exception e) {
+							scanner.next();
+							band = false;
+							System.out.println("\nINGRESE Los datos");
 						}
+
+						if (band) {
+							try {
+								Usuario newUser = new Usuario(dniDeAlta, nombreDeAlta, apellidoDeAlta, domicilioDeAlta,
+										emailAlta, passwordAlta, fechaNacimientoDeAlta, new Rol(rolId));
+								usuarioDao.guardarUsuario(newUser);
+							} catch (Exception e) {
+								System.out.println("\n\nDni o Email ya registrado en la base de datos \n\n");
+								continue;
+							}
+
+							System.out.println("\nCarga de cliente CORRECTA\n\n");
+
+						} else
+							System.out.println("\nCarga de cliente INCORRECTA\n\n");
 
 						System.out.println("\nOpcion de Alta de Cliente Finalizada");
 					} else if (option == 2) {
@@ -190,6 +206,20 @@ public class Principal {
 						System.out.println("\nOpcion de Venta Finalizada");
 
 					} else if (option == 3) {
+
+//						System.out.println(usuariosList.size());
+
+						List<Usuario> filteredUser = usuariosList.stream()
+								.filter(usuario -> usuario.getRol().getTipo().equals("Cliente")).toList();
+//						System.out.println(usuariosList.size());
+
+						for (Usuario usuario : filteredUser) {
+							System.out.println(
+									"Nombre: " + usuario.getNombre() + " Apellido : " + usuario.getApellido() + "\n");
+							System.out.println("Domicilio: " + usuario.getDireccion() + " fechaNacimiento : "
+									+ usuario.getFechaNacimiento().toString() + "\n");
+							System.out.println("Dni: " + usuario.getDni() + " Email: " + usuario.getEmail() + "\n\n");
+						}
 
 						System.out.println("\nOpcion de Listado de Clientes Finalizada");
 
@@ -222,10 +252,10 @@ public class Principal {
 
 					if (option == 1) {
 
-						System.out.println("\nOpcion de Listado de todas las Facturas Finalizada");
+						System.out.println("\nOpcion de Buscar Factura por numero Finalizada");
 
 					} else if (option == 2) {
-
+						System.out.println("\nOpcion de Listado de todas las Facturas Finalizada");
 					} else if (option == 3) {
 
 						System.out.println("\nHa salido correctamente del programa");
