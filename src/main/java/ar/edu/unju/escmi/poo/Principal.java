@@ -297,7 +297,7 @@ public class Principal {
 										price -= price * ((double) product.getDescuento() / 100);
 									}
 
-									if (quantity <= stockProduct.getCantidad()) {
+									if (quantity <= stockProduct.getCantidad() && quantity > 0) {
 										System.out.println("Producto agregado");
 										Detalle detail = new Detalle(quantity, quantity * price, product, invoice);
 
@@ -349,26 +349,25 @@ public class Principal {
 					} else if (option == 3) {
 
 						System.out.println("\nLISTADO DE CLIENTES: ");
-//						usuarioDao.obtenerUsuarios().stream().filter(u -> u.getRol().getTipo().equals("Cliente"))
-//								.forEach(user -> {
-//									System.out.println("\n" + user.toString());
-//								});
+						userList.stream().filter(u -> u.getRol().getTipo().equals("Cliente")).forEach(user -> {
+							System.out.println("\n" + user.toString());
+						});
 
 //						 System.out.println(usuariosList.size());
 
-						List<Usuario> filteredUser = userList.stream()
-								.filter(usuario -> usuario.getRol().getTipo().equals("Cliente")).toList();
-//						System.out.println(userList.size());
-
-						for (Usuario usuario : filteredUser) {
-							System.out.println("------------------------------------------------\n");
-							System.out.println(
-									"Nombre: " + usuario.getNombre() + " Apellido : " + usuario.getApellido() + "\n");
-							System.out.println("Domicilio: " + usuario.getDireccion() + " fechaNacimiento: "
-									+ usuario.getFechaNacimiento().toString() + "\n");
-							System.out.println("Dni: " + usuario.getDni() + " Email: " + usuario.getEmail() + "\n");
-
-						}
+//						List<Usuario> filteredUser = userList.stream()
+//								.filter(usuario -> usuario.getRol().getTipo().equals("Cliente")).toList();
+////						System.out.println(userList.size());
+//
+//						for (Usuario usuario : filteredUser) {
+//							System.out.println("------------------------------------------------\n");
+//							System.out.println(
+//									"Nombre: " + usuario.getNombre() + " Apellido : " + usuario.getApellido() + "\n");
+//							System.out.println("Domicilio: " + usuario.getDireccion() + " fechaNacimiento: "
+//									+ usuario.getFechaNacimiento().toString() + "\n");
+//							System.out.println("Dni: " + usuario.getDni() + " Email: " + usuario.getEmail() + "\n");
+//
+//						}
 
 						System.out.println("\nOpcion de Listado de Clientes Finalizada");
 
