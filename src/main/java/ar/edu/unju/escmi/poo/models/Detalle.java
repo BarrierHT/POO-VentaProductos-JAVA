@@ -87,10 +87,6 @@ public class Detalle implements Serializable {
 		this.producto = producto;
 	}
 
-	public double calcularImporte() {
-		return cantidad * producto.getPrecioUnitario();
-	}
-
 	@Override
 	public String toString() {
 		return "PRODUCTO: " + producto + "\nCANTIDAD: " + cantidad + " | IMPORTE: " + importe + "\n";

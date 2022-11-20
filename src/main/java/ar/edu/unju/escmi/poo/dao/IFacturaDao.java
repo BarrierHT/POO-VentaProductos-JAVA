@@ -6,9 +6,11 @@ import ar.edu.unju.escmi.poo.models.Factura;
 
 public interface IFacturaDao {
 
-    public void guardarFactura(Factura factura);
+	public void guardarFactura(Factura factura);
 
-    public Factura obtenerFactura(Long nroFactura);
+	public Factura obtenerFactura(Long nroFactura);
 
-    public List<Factura> obtenerFacturas();
+	public List<Factura> obtenerFacturas();
+
+	public void borrarFactura(Factura factura);
 }

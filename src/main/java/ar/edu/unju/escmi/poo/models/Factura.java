@@ -31,7 +31,7 @@ public class Factura implements Serializable {
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 
-	@OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "", fetch = FetchType.LAZY)
 	private List<Detalle> detalles = new ArrayList<Detalle>();
 
 	public Factura() {
@@ -89,12 +89,12 @@ public class Factura implements Serializable {
 		this.detalles = detalles;
 	}
 
-	public double calcularTotal() {
+	public void calcularTotal() {
 		double total = 0;
 		for (Detalle detalle : detalles) {
 			total += detalle.getImporte();
 		}
-		return total;
+		this.total = total;
 	}
 
 	@Override
