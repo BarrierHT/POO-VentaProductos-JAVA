@@ -9,11 +9,19 @@ import javax.persistence.EntityManager;
 import ar.edu.unju.escmi.poo.config.EmfSingleton;
 import ar.edu.unju.escmi.poo.dao.IDetalleDao;
 import ar.edu.unju.escmi.poo.dao.IFacturaDao;
+import ar.edu.unju.escmi.poo.dao.IProductoDao;
+import ar.edu.unju.escmi.poo.dao.IStockDao;
 import ar.edu.unju.escmi.poo.dao.IUsuarioDao;
 import ar.edu.unju.escmi.poo.dao.imp.DetalleDaoImp;
 import ar.edu.unju.escmi.poo.dao.imp.FacturaDaoImp;
+import ar.edu.unju.escmi.poo.dao.imp.ProductoDaoImp;
+import ar.edu.unju.escmi.poo.dao.imp.StockDaoImp;
 import ar.edu.unju.escmi.poo.dao.imp.UsuarioDaoImp;
+import ar.edu.unju.escmi.poo.models.Detalle;
+import ar.edu.unju.escmi.poo.models.Factura;
+import ar.edu.unju.escmi.poo.models.Producto;
 import ar.edu.unju.escmi.poo.models.Rol;
+import ar.edu.unju.escmi.poo.models.Stock;
 import ar.edu.unju.escmi.poo.models.Usuario;
 
 public class Principal {
@@ -31,12 +39,14 @@ public class Principal {
 		IUsuarioDao usuarioDao = new UsuarioDaoImp();
 		IDetalleDao detalleDao = new DetalleDaoImp();
 		IFacturaDao facturaDao = new FacturaDaoImp();
+		IProductoDao productoDao = new ProductoDaoImp();
+		IStockDao stockDao = new StockDaoImp();
 
 		List<Usuario> usuariosList = usuarioDao.obtenerUsuarios(); // Get all users
 		Usuario usuarioRecovered = null; // Get user to initiate the session
 
 		// Muestra los detalles del nroFactura que ingreses (mirar imp)
-//		 System.out.println(detalleDao.obtenerDetalles((long) 1).toString());
+		// System.out.println(detalleDao.obtenerDetalles((long) 1).toString());
 
 		// Factura de test (crear usuario y detalles)
 
@@ -54,11 +64,13 @@ public class Principal {
 		// manager.persist(rol);
 		// manager.getTransaction().commit();
 
-//			Usuario usuario = new Usuario((long) 12, "a", "b", "c", "demail", "email", LocalDate.now(), new Rol(1));
+		// Usuario usuario = new Usuario((long) 45327608, "martin", "cruz", "c",
+		// "mcruz", "test",
+		// LocalDate.now(), new Rol(6));
 		// Al ingresar el id del rol, tiene que ser una id que exista ya en la bd
 
 		// MANERA 1
-//			usuarioDao.guardarUsuario(usuario);
+		// usuarioDao.guardarUsuario(usuario);
 
 		// MANERA2
 
@@ -99,6 +111,7 @@ public class Principal {
 			if (credencial) { // User is logged in Correctly
 
 				option = -1;
+				long billNumber = 6;
 
 				System.out.println("Logged in: " + usuarioRecovered.getRol().getTipo());
 
@@ -144,7 +157,7 @@ public class Principal {
 										domicilioDeAlta = scanner.next();
 										try {
 											System.out.println("Ingrese la Fecha de Nacimiento del usuario : ");
-//											DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
+											// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
 											String dateString = scanner.next();
 											fechaNacimientoDeAlta = LocalDate.parse(dateString);
 
@@ -203,31 +216,160 @@ public class Principal {
 						System.out.println("\nOpcion de Alta de Cliente Finalizada");
 					} else if (option == 2) {
 
+						System.out.println("\nIngrese DNI del cliente: ");
+						long idCard = -1;
+
+						try {
+							idCard = scanner.nextLong();
+						} catch (Exception e) {
+							scanner.next();
+							System.out.println("\nINGRESE UN NUMERO");
+						}
+
+						Usuario client = usuarioDao.obtenerUsuario(idCard);
+
+						if (client != null) {
+
+							System.out.println("\nCliente: " + client.getApellido() + ", " + client.getNombre());
+
+							String op;
+							Factura bill = new Factura();
+							boolean generateBill = false;
+							Producto p = null;
+
+							do {
+
+								System.out.println("\nIngrese codigo del producto: ");
+
+								try {
+									int code = scanner.nextInt();
+									p = productoDao.obtenerProducto(code);
+								} catch (Exception e) {
+									scanner.next();
+									System.out.println("\nINGRESE UN NUMERO");
+								}
+
+								if (p != null) {
+
+									System.out.println(
+											"\nProducto: " + p.getDescripcion() + "\nPrecio: $"
+													+ p.getPrecioUnitario());
+
+									if (stockDao.obtenerStock(p) != null) {
+
+										int amount = 0;
+
+										System.out.println(
+												"Stock Disponible: " + stockDao.obtenerStock(p).getCantidad());
+										System.out.println("\nIngrese cantidad: ");
+
+										try {
+											amount = scanner.nextInt();
+										} catch (Exception e) {
+											scanner.next();
+											System.out.println("\nINGRESE UN NUMERO");
+										}
+
+										if (amount != 0 && stockDao.obtenerStock(p).getCantidad() >= amount) {
+
+											// ToDo - No carga factura_id (si se crea la factura antes y se lo manda
+											// como parametro sigue dando error por el constructor)
+											// Detalle details = new Detalle(amount, 0, p, null);
+											// details.setImporte(details.calcularImporte());
+
+											// detalleDao.guardarDetalle(details);
+
+											// bill.getDetalles().add(details);
+											generateBill = true;
+
+											Stock stock = stockDao.obtenerStock(p);
+											stock.setCantidad(stock.getCantidad() - amount);
+											stockDao.modificarStock(stock);
+
+										} else {
+
+											System.out.println("\nNo hay stock disponible");
+
+										}
+
+									} else {
+
+										System.out.println("\nNo hay stock");
+
+									}
+
+								} else {
+
+									System.out.println("\nNo se encontro el producto");
+
+								}
+
+								System.out.println("\nAgregar mas productos? si/no: ");
+								op = scanner.next();
+
+							} while (op.equalsIgnoreCase("si") || op.equalsIgnoreCase("s"));
+
+							if (generateBill) {
+
+								// ToDo - Mismo error que en detalles, falla el constructor al cargar cliente o
+								// detalles
+								// billNumber++;
+								// bill.setNroFactura(billNumber);
+								// bill.setFechaGeneracion(LocalDate.now());
+								// bill.setTotal(bill.calcularTotal());
+
+								// facturaDao.guardarFactura(bill);
+								// System.out.println(bill);
+							} else {
+								System.out.println("\nOcurrio un error al generar la factura");
+							}
+
+						} else {
+							System.out.println("\nNo se encontro el cliente");
+						}
+
 						System.out.println("\nOpcion de Venta Finalizada");
 
 					} else if (option == 3) {
 
-//						System.out.println(usuariosList.size());
+						System.out.println("\nLISTADO DE CLIENTES: ");
+						usuarioDao.obtenerUsuarios().stream().filter(u -> u.getRol().getTipo().equals("Cliente"))
+								.forEach(user -> {
+									System.out.println("\n" + user.toString());
+								});
 
-						List<Usuario> filteredUser = usuariosList.stream()
-								.filter(usuario -> usuario.getRol().getTipo().equals("Cliente")).toList();
-//						System.out.println(usuariosList.size());
+						// System.out.println(usuariosList.size());
 
-						for (Usuario usuario : filteredUser) {
-							System.out.println(
-									"Nombre: " + usuario.getNombre() + " Apellido : " + usuario.getApellido() + "\n");
-							System.out.println("Domicilio: " + usuario.getDireccion() + " fechaNacimiento : "
-									+ usuario.getFechaNacimiento().toString() + "\n");
-							System.out.println("Dni: " + usuario.getDni() + " Email: " + usuario.getEmail() + "\n\n");
-						}
+						// List<Usuario> filteredUser = usuariosList.stream()
+						// .filter(usuario -> usuario.getRol().getTipo().equals("Cliente")).;
+						// System.out.println(usuariosList.size());
+
+						// for (Usuario usuario : filteredUser) {
+						// System.out.println(
+						// "Nombre: " + usuario.getNombre() + " Apellido : " + usuario.getApellido() +
+						// "\n");
+						// System.out.println("Domicilio: " + usuario.getDireccion() + " fechaNacimiento
+						// : "
+						// + usuario.getFechaNacimiento().toString() + "\n");
+						// System.out.println("Dni: " + usuario.getDni() + " Email: " +
+						// usuario.getEmail() + "\n\n");
+						// }
 
 						System.out.println("\nOpcion de Listado de Clientes Finalizada");
 
 					} else if (option == 4) {
 
+						System.out.println("\nLISTADO DE FACTURAS: ");
+						System.out.println("\n" + facturaDao.obtenerFacturas().toString());
+
 						System.out.println("\nOpcion de Listado de Facturas Finalizada");
 
 					} else if (option == 5) {
+
+						System.out.println("\nIngrese el numero de Factura que desea buscar: ");
+						Long nroFactura = scanner.nextLong();
+
+						System.out.println(facturaDao.obtenerFactura(nroFactura).toString());
 
 						System.out.println("\nOpcion de Buscar Factura por numero Finalizada");
 
@@ -252,9 +394,24 @@ public class Principal {
 
 					if (option == 1) {
 
+						System.out.println("\nIngrese el numero de Factura que desea buscar: ");
+						Long nroFactura = scanner.nextLong();
+
+						System.out.println(facturaDao.obtenerFactura(nroFactura).toString());
+
 						System.out.println("\nOpcion de Buscar Factura por numero Finalizada");
 
 					} else if (option == 2) {
+
+						long checkUserID = usuarioRecovered.getDni();
+
+						facturaDao.obtenerFacturas().stream().filter(b -> b.getUsuario().getDni() == checkUserID)
+								.forEach(bill -> {
+
+									System.out.println("\n" + bill.toString());
+
+								});
+
 						System.out.println("\nOpcion de Listado de todas las Facturas Finalizada");
 					} else if (option == 3) {
 

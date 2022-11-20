@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 
 import ar.edu.unju.escmi.poo.config.EmfSingleton;
 import ar.edu.unju.escmi.poo.dao.IStockDao;
+import ar.edu.unju.escmi.poo.models.Producto;
 import ar.edu.unju.escmi.poo.models.Stock;
 
 public class StockDaoImp implements IStockDao {
@@ -19,8 +20,8 @@ public class StockDaoImp implements IStockDao {
 	}
 
 	@Override
-	public Stock obtenerStock(int idStock) {
-		return manager.find(Stock.class, idStock);
+	public Stock obtenerStock(Producto producto) {
+		return manager.find(Stock.class, producto.getCodigo());
 	}
 
 	@Override

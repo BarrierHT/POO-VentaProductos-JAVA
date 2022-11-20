@@ -89,12 +89,12 @@ public class Factura implements Serializable {
 		this.detalles = detalles;
 	}
 
-	public void calcularTotal() {
-
+	public double calcularTotal() {
+		double total = 0;
 		for (Detalle detalle : detalles) {
-			this.total += detalle.getImporte();
+			total += detalle.getImporte();
 		}
-
+		return total;
 	}
 
 	@Override
