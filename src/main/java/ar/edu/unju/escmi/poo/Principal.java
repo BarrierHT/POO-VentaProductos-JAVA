@@ -5,21 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.persistence.EntityManager;
-
-import ar.edu.unju.escmi.poo.config.EmfSingleton;
-import ar.edu.unju.escmi.poo.dao.ICategoriaDao;
 import ar.edu.unju.escmi.poo.dao.IDetalleDao;
 import ar.edu.unju.escmi.poo.dao.IFacturaDao;
 import ar.edu.unju.escmi.poo.dao.IProductoDao;
-import ar.edu.unju.escmi.poo.dao.IRolDao;
 import ar.edu.unju.escmi.poo.dao.IStockDao;
 import ar.edu.unju.escmi.poo.dao.IUsuarioDao;
-import ar.edu.unju.escmi.poo.dao.imp.CategoriaDaoImp;
 import ar.edu.unju.escmi.poo.dao.imp.DetalleDaoImp;
 import ar.edu.unju.escmi.poo.dao.imp.FacturaDaoImp;
 import ar.edu.unju.escmi.poo.dao.imp.ProductoDaoImp;
-import ar.edu.unju.escmi.poo.dao.imp.RolDaoImp;
 import ar.edu.unju.escmi.poo.dao.imp.StockDaoImp;
 import ar.edu.unju.escmi.poo.dao.imp.UsuarioDaoImp;
 import ar.edu.unju.escmi.poo.models.Detalle;
@@ -30,8 +23,6 @@ import ar.edu.unju.escmi.poo.models.Stock;
 import ar.edu.unju.escmi.poo.models.Usuario;
 
 public class Principal {
-
-	private static EntityManager manager = EmfSingleton.getInstance().getEmf().createEntityManager();
 
 	public static void main(String[] args) {
 
@@ -46,46 +37,10 @@ public class Principal {
 		IFacturaDao facturaDao = new FacturaDaoImp();
 		IProductoDao productoDao = new ProductoDaoImp();
 		IStockDao stockDao = new StockDaoImp();
-		ICategoriaDao categoriaDao = new CategoriaDaoImp();
-		IRolDao rolDao = new RolDaoImp();
 
-		List<Usuario> userList = usuarioDao.obtenerUsuarios(); // Get all users
 		List<Producto> productList = productoDao.obtenerProductos(); // Get all products
 
 		Usuario usuarioRecovered = null; // Get user to initiate the session
-
-		// Muestra los detalles del nroFactura que ingreses (mirar imp)
-		// System.out.println(detalleDao.obtenerDetalles((long) 1).toString());
-
-		// Factura de test (crear usuario y detalles)
-
-		// Factura bill = new Factura(LocalDate.now(), 20,
-		// usuarioDao.obtenerUsuario((long) 123),
-		// detalleDao.obtenerDetalles((long) 1));
-
-		// facturaDao.guardarFactura(bill);
-
-		// Test de que los detalles se cargaron bien
-		// System.out.println(facturaDao.obtenerFactura((long) 2).toString());
-
-		// Rol rol = new Rol("newrol");
-		// manager.getTransaction().begin();
-		// manager.persist(rol);
-		// manager.getTransaction().commit();
-
-		// Usuario usuario = new Usuario((long) 45327608, "martin", "cruz", "c",
-		// "mcruz", "test",
-		// LocalDate.now(), new Rol(6));
-		// Al ingresar el id del rol, tiene que ser una id que exista ya en la bd
-
-		// MANERA 1
-		// usuarioDao.guardarUsuario(usuario);
-
-		// MANERA2
-
-		// manager.getTransaction().begin();
-		// manager.persist(usuario);
-		// manager.getTransaction().commit();
 
 		do {
 
@@ -94,12 +49,14 @@ public class Principal {
 					try {
 						System.out.println("\nDigite el email del usuario: ");
 						email = scanner.next();
-						System.out.println("Digite la contraseña del usuario: ");
+						System.out.println("Digite la contrasenia del usuario: ");
 						password = scanner.next();
 					} catch (Exception e) {
 						scanner.next();
 						System.out.println("\nINGRESE Los datos");
 					}
+
+					List<Usuario> userList = usuarioDao.obtenerUsuarios(); // Get all users
 
 					for (Usuario usuario : userList) {
 						if (usuario.getEmail().equals(email) && usuario.getPassword().equals(password)) {
@@ -120,12 +77,11 @@ public class Principal {
 			if (credencial) { // User is logged in Correctly
 
 				option = -1;
-				long billNumber = 6;
 
 				System.out.println("Logged in: " + usuarioRecovered.getRol().getTipo());
 
 				if (usuarioRecovered.getRol().getTipo().equals("Vendedor")) { // Menu de vendedor
-					System.out.println("\nMenu Principal");
+					System.out.println("\nMenu Vendedor");
 					System.out.println("1- Alta de cliente");
 					System.out.println("2- Venta (se genera venta)");
 					System.out.println("3- Listado de clientes");
@@ -145,7 +101,6 @@ public class Principal {
 					if (option == 1) {
 
 						int rolId = 1;
-						int dia = 0, mes = 0, anio = 0;
 						String nombreDeAlta = "", apellidoDeAlta = "", domicilioDeAlta = "";
 						String emailAlta = "", passwordAlta = "";
 						Long dniDeAlta = (long) 0;
@@ -153,7 +108,7 @@ public class Principal {
 						LocalDate fechaNacimientoDeAlta = LocalDate.now();
 
 						try {
-							System.out.println("Ingrese el Nombre del usuario: ");
+							System.out.println("\nIngrese el Nombre del usuario: ");
 							nombreDeAlta = scanner.next();
 							try {
 								System.out.println("Ingrese el Apellido del usuario: ");
@@ -236,13 +191,14 @@ public class Principal {
 							System.out.println("\nINGRESE un verdadero Dni");
 						}
 
-						if (usuarioDao.obtenerUsuario(dniClient) == null
-								|| !usuarioDao.obtenerUsuario(dniClient).getRol().getTipo().equals("Cliente")) {
+						Usuario clientRecovered = usuarioDao.obtenerUsuario(dniClient);
+
+						System.out.println(clientRecovered.getRol().getId());
+
+						if (clientRecovered == null || clientRecovered.getRol().getId() == 2) {
 							System.out.println("\nCliente no encontrado\n"); // Check if client exists
 							continue;
 						}
-
-						Usuario clientRecovered = usuarioDao.obtenerUsuario(dniClient);
 
 						for (Producto producto : productList) {
 
@@ -250,7 +206,6 @@ public class Principal {
 
 							double price = producto.getPrecioUnitario();
 							if (producto.getDescuento() != 0) {
-//								System.out.println(producto.getDescuento());
 								price -= price * ((double) producto.getDescuento() / 100);
 							}
 
@@ -278,7 +233,7 @@ public class Principal {
 
 							if (optionClient == 1) {
 								int indexProduct = -1, quantity = 0;
-								System.out.println("Digite el numero del producto que quiere comprar: ");
+								System.out.println("\nDigite el numero del producto que quiere comprar: ");
 								indexProduct = scanner.nextInt();
 
 								System.out.println("Digite la cantidad del producto que quiere comprar: ");
@@ -293,7 +248,6 @@ public class Principal {
 									Stock stockProduct = stockDao.obtenerStock(product);
 
 									if (product.getDescuento() != 0) {
-//										System.out.println(product.getDescuento());
 										price -= price * ((double) product.getDescuento() / 100);
 									}
 
@@ -303,12 +257,10 @@ public class Principal {
 
 										details.add(detail);
 
-//										System.out.println(detail.getImporte());
-
 										stockProduct.setCantidad(stockProduct.getCantidad() - quantity);
 										stockDao.modificarStock(stockProduct);
 
-//										  detail loaded
+										// detail loaded
 										detalleDao.guardarDetalle(detail);
 
 									} else {
@@ -323,7 +275,6 @@ public class Principal {
 							}
 
 							if (optionClient == 2) {
-								// ToDo createInvoice
 								if (details.size() > 0) {
 									invoice.setDetalles(details);
 									invoice.calcularTotal();
@@ -348,33 +299,28 @@ public class Principal {
 
 					} else if (option == 3) {
 
+						List<Usuario> userList = usuarioDao.obtenerUsuarios(); // Get all users updated
+
 						System.out.println("\nLISTADO DE CLIENTES: ");
-						userList.stream().filter(u -> u.getRol().getTipo().equals("Cliente")).forEach(user -> {
-							System.out.println("\n" + user.toString());
-						});
-
-//						 System.out.println(usuariosList.size());
-
-//						List<Usuario> filteredUser = userList.stream()
-//								.filter(usuario -> usuario.getRol().getTipo().equals("Cliente")).toList();
-////						System.out.println(userList.size());
-//
-//						for (Usuario usuario : filteredUser) {
-//							System.out.println("------------------------------------------------\n");
-//							System.out.println(
-//									"Nombre: " + usuario.getNombre() + " Apellido : " + usuario.getApellido() + "\n");
-//							System.out.println("Domicilio: " + usuario.getDireccion() + " fechaNacimiento: "
-//									+ usuario.getFechaNacimiento().toString() + "\n");
-//							System.out.println("Dni: " + usuario.getDni() + " Email: " + usuario.getEmail() + "\n");
-//
-//						}
+						for (Usuario u : userList) {
+							if (u.getRol().getId() == 1) {
+								System.out.println("\n" + u.toString());
+							}
+						}
 
 						System.out.println("\nOpcion de Listado de Clientes Finalizada");
 
 					} else if (option == 4) {
 
-						System.out.println("\nLISTADO DE FACTURAS: ");
-						System.out.println("\n" + facturaDao.obtenerFacturas().toString());
+						List<Factura> billList = facturaDao.obtenerFacturas(); // Get all bills updated
+
+						if (billList.size() != 0) {
+							System.out.println("\nLISTADO DE FACTURAS: ");
+							for (Factura b : billList) {
+								System.out.println("\n" + b.toString());
+							}
+						} else
+							System.out.println("\nNo hay facturas cargadas");
 
 						System.out.println("\nOpcion de Listado de Facturas Finalizada");
 
@@ -383,7 +329,10 @@ public class Principal {
 						System.out.println("\nIngrese el numero de Factura que desea buscar: ");
 						Long nroFactura = scanner.nextLong();
 
-						System.out.println(facturaDao.obtenerFactura(nroFactura).toString());
+						if (facturaDao.obtenerFactura(nroFactura) != null) {
+							System.out.println(facturaDao.obtenerFactura(nroFactura).toString());
+						} else
+							System.out.println("\nFactura inexistente");
 
 						System.out.println("\nOpcion de Buscar Factura por numero Finalizada");
 
@@ -393,6 +342,7 @@ public class Principal {
 						System.out.println("\nOpcion incorrecta");
 
 				} else if (usuarioRecovered.getRol().getTipo().equals("Cliente")) { // Menu de Cliente
+					System.out.println("\nMenu Cliente");
 					System.out.println("1- Buscar Factura por numero de factura");
 					System.out.println("2- Listar todas sus facturas");
 					System.out.println("3- Salir");
@@ -408,10 +358,30 @@ public class Principal {
 
 					if (option == 1) {
 
+						long checkUserID = usuarioRecovered.getDni();
+						List<Factura> filteredBill = new ArrayList<>();
+
+						facturaDao.obtenerFacturas().stream().filter(b -> b.getUsuario().getDni() == checkUserID)
+								.forEach(bill -> {
+									filteredBill.add(bill);
+								});
+
+						System.out.println("\nPuedes ver las siguientes facturas: ");
+						for (Factura b : filteredBill) {
+							System.out.print(b.getNroFactura() + " ");
+						}
+
 						System.out.println("\nIngrese el numero de Factura que desea buscar: ");
 						Long nroFactura = scanner.nextLong();
 
-						System.out.println(facturaDao.obtenerFactura(nroFactura).toString());
+						if (facturaDao.obtenerFactura(nroFactura) != null) {
+							if (facturaDao.obtenerFactura(nroFactura).getUsuario().getDni() == checkUserID) {
+								System.out.println(facturaDao.obtenerFactura(nroFactura).toString());
+							} else
+								System.out.println("\nLa factura ingresada es de otro usuario");
+
+						} else
+							System.out.println("\nFactura inexistente");
 
 						System.out.println("\nOpcion de Buscar Factura por numero Finalizada");
 
