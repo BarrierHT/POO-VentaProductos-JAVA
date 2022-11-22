@@ -25,7 +25,7 @@ public class StockDaoImp implements IStockDao {
 	public Stock obtenerStock(Producto producto) {
 		@SuppressWarnings("unchecked")
 		List<Stock> stocks = (List<Stock>) manager.createQuery("SELECT s FROM Stock s").getResultList();
-		for (Stock stock: stocks) {
+		for (Stock stock : stocks) {
 			if (stock.getProducto().getCodigo() == producto.getCodigo()) {
 				return stock;
 			}
@@ -40,5 +40,5 @@ public class StockDaoImp implements IStockDao {
 		manager.getTransaction().commit();
 
 	}
-	
+
 }

@@ -28,6 +28,7 @@ public class Principal {
 
 		Scanner scanner = new Scanner(System.in);
 		int option = -1;
+		Long nroFactura = (long) -1;
 		boolean credencial = false;
 
 		String email = "", password = "";
@@ -41,7 +42,7 @@ public class Principal {
 		List<Producto> productList = productoDao.obtenerProductos(); // Get all products
 
 		Usuario usuarioRecovered = null; // Get user to initiate the session
-		
+
 		do {
 
 			if (credencial == false) { // User is not logged in
@@ -78,10 +79,10 @@ public class Principal {
 
 				option = -1;
 
-				System.out.println("Logged in: " + usuarioRecovered.getRol().getTipo());
+				System.out.println("\nLogged in: " + usuarioRecovered.getRol().getTipo());
 
 				if (usuarioRecovered.getRol().getTipo().equals("Vendedor")) { // Menu de vendedor
-					System.out.println("\nMenu Vendedor");
+					System.out.println("Menu Vendedor");
 					System.out.println("1- Alta de cliente");
 					System.out.println("2- Venta (se genera venta)");
 					System.out.println("3- Listado de clientes");
@@ -96,6 +97,7 @@ public class Principal {
 					} catch (Exception e) {
 						scanner.next();
 						System.out.println("\nINGRESE UN NUMERO");
+						continue;
 					}
 
 					if (option == 1) {
@@ -120,7 +122,8 @@ public class Principal {
 										System.out.println("Ingrese el Domicilio del usuario: ");
 										domicilioDeAlta = scanner.next();
 										try {
-											System.out.println("Ingrese la Fecha de Nacimiento del usuario (AAAA-MM-DD) : ");
+											System.out.println(
+													"Ingrese la Fecha de Nacimiento del usuario (AAAA-MM-DD) : ");
 											// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
 											String dateString = scanner.next();
 											fechaNacimientoDeAlta = LocalDate.parse(dateString);
@@ -183,12 +186,14 @@ public class Principal {
 						int optionClient = 0, i = 1;
 						long dniClient = 0;
 
+						System.out.println("\nDigite el dni del cliente a comprar: ");
+
 						try {
-							System.out.println("\nDigite el dni del cliente a comprar: ");
 							dniClient = scanner.nextLong();
 						} catch (Exception e) {
 							scanner.next();
 							System.out.println("\nINGRESE un verdadero Dni");
+							continue;
 						}
 
 						Usuario clientRecovered = usuarioDao.obtenerUsuario(dniClient);
@@ -203,7 +208,7 @@ public class Principal {
 						for (Producto producto : productList) {
 
 							Stock stock = stockDao.obtenerStock(producto);
-							
+
 							double price = producto.getPrecioUnitario();
 							if (producto.getDescuento() != 0) {
 								price -= price * ((double) producto.getDescuento() / 100);
@@ -225,19 +230,40 @@ public class Principal {
 
 						do {
 
-							System.out.println("1- Seguir ingresando productos");
+							System.out.println("\n1- Seguir ingresando productos");
 							System.out.println("2- Terminar compra");
 
 							System.out.println("Digite la opcion: ");
-							optionClient = scanner.nextInt();
+
+							try {
+								optionClient = scanner.nextInt();
+							} catch (Exception e) {
+								scanner.next();
+								System.out.println("\nINGRESE UN NUMERO");
+							}
 
 							if (optionClient == 1) {
 								int indexProduct = -1, quantity = 0;
-								System.out.println("\nDigite el numero del producto que quiere comprar: ");
-								indexProduct = scanner.nextInt();
+
+								System.out.println("\nDigite el codigo del producto que quiere comprar: ");
+
+								try {
+									indexProduct = scanner.nextInt();
+								} catch (Exception e) {
+									scanner.next();
+									System.out.println("\nINGRESE UN NUMERO");
+									continue;
+								}
 
 								System.out.println("Digite la cantidad del producto que quiere comprar: ");
-								quantity = scanner.nextInt();
+
+								try {
+									quantity = scanner.nextInt();
+								} catch (Exception e) {
+									scanner.next();
+									System.out.println("\nINGRESE UN NUMERO");
+									continue;
+								}
 
 								indexProduct--;
 
@@ -326,13 +352,24 @@ public class Principal {
 
 					} else if (option == 5) {
 
-						System.out.println("\nIngrese el numero de Factura que desea buscar: ");
-						Long nroFactura = scanner.nextLong();
+						if (facturaDao.obtenerFacturas().size() != 0) {
 
-						if (facturaDao.obtenerFactura(nroFactura) != null) {
-							System.out.println(facturaDao.obtenerFactura(nroFactura).toString());
+							System.out.println("\nIngrese el numero de Factura que desea buscar: ");
+
+							try {
+								nroFactura = scanner.nextLong();
+							} catch (Exception e) {
+								scanner.next();
+								System.out.println("\nINGRESE UN NUMERO");
+								continue;
+							}
+
+							if (facturaDao.obtenerFactura(nroFactura) != null) {
+								System.out.println(facturaDao.obtenerFactura(nroFactura).toString());
+							} else
+								System.out.println("\nFactura inexistente");
 						} else
-							System.out.println("\nFactura inexistente");
+							System.out.println("\nNo se han hecho compras hasta el momento");
 
 						System.out.println("\nOpcion de Buscar Factura por numero Finalizada");
 
@@ -342,7 +379,7 @@ public class Principal {
 						System.out.println("\nOpcion incorrecta");
 
 				} else if (usuarioRecovered.getRol().getTipo().equals("Cliente")) { // Menu de Cliente
-					System.out.println("\nMenu Cliente");
+					System.out.println("Menu Cliente");
 					System.out.println("1- Buscar Factura por numero de factura");
 					System.out.println("2- Listar todas sus facturas");
 					System.out.println("3- Salir");
@@ -354,6 +391,7 @@ public class Principal {
 					} catch (Exception e) {
 						scanner.next();
 						System.out.println("\nINGRESE UN NUMERO");
+						continue;
 					}
 
 					if (option == 1) {
@@ -366,22 +404,35 @@ public class Principal {
 									filteredBill.add(bill);
 								});
 
-						System.out.println("\nPuedes ver las siguientes facturas: ");
-						for (Factura b : filteredBill) {
-							System.out.print(b.getNroFactura() + " ");
-						}
+						if (filteredBill.size() != 0) {
 
-						System.out.println("\nIngrese el numero de Factura que desea buscar: ");
-						Long nroFactura = scanner.nextLong();
+							System.out.println("\nPuedes ver las siguientes facturas: ");
 
-						if (facturaDao.obtenerFactura(nroFactura) != null) {
-							if (facturaDao.obtenerFactura(nroFactura).getUsuario().getDni() == checkUserID) {
-								System.out.println(facturaDao.obtenerFactura(nroFactura).toString());
+							for (Factura b : filteredBill) {
+								System.out.print(b.getNroFactura() + " ");
+							}
+
+							System.out.println("\nIngrese el numero de Factura que desea buscar: ");
+
+							try {
+								nroFactura = scanner.nextLong();
+							} catch (Exception e) {
+								scanner.next();
+								System.out.println("\nINGRESE UN NUMERO");
+								continue;
+							}
+
+							if (facturaDao.obtenerFactura(nroFactura) != null) {
+								if (facturaDao.obtenerFactura(nroFactura).getUsuario().getDni() == checkUserID) {
+									System.out.println(facturaDao.obtenerFactura(nroFactura).toString());
+								} else
+									System.out.println("\nLa factura ingresada es incorrecta");
+
 							} else
-								System.out.println("\nLa factura ingresada es de otro usuario");
+								System.out.println("\nFactura inexistente");
 
 						} else
-							System.out.println("\nFactura inexistente");
+							System.out.println("\nNo ha hecho ninguna compra hasta el momento");
 
 						System.out.println("\nOpcion de Buscar Factura por numero Finalizada");
 
