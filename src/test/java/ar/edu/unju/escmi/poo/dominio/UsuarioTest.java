@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -21,13 +22,26 @@ import junit.framework.TestCase;
 public class UsuarioTest extends TestCase {
 	
 	IUsuarioDao usuarioDao = new UsuarioDaoImp();
+	Usuario usuario;
+	
+	@BeforeEach
+	protected void setUp() throws Exception {
+		usuario = new Usuario();
+	} 
 	
 	@Test
 	@Order(1)
 	public void testGuardarUsuario() {
 		IRolDao rolDao = new RolDaoImp();
 		Rol rol = rolDao.obtenerRol(1);
-		Usuario usuario = new Usuario((long) 111, "testNombre" , "testApellido", "testDireccion", "testEmail111", "testPassword", LocalDate.now(), rol);
+		usuario.setDni((long) 111);
+		usuario.setNombre("testNombre");
+		usuario.setApellido("testApellido");
+		usuario.setEmail("testEmail111");
+		usuario.setPassword("testPassword");
+		usuario.setFechaNacimiento(LocalDate.now());
+		usuario.setRol(rol);
+		//Usuario usuario = new Usuario((long) 111, "testNombre" , "testApellido", "testDireccion", "testEmail111", "testPassword", LocalDate.now(), rol);
 		usuarioDao.guardarUsuario(usuario);
 		
 		assertNotNull(usuarioDao.obtenerUsuario(usuario.getDni()));
@@ -38,11 +52,10 @@ public class UsuarioTest extends TestCase {
 	@Test
 	@Order(2)
 	public void testObtenerUsuario() {
-		Usuario usuarioObtenido = new Usuario();
-		usuarioObtenido = usuarioDao.obtenerUsuario((long) 1);
+		usuario = usuarioDao.obtenerUsuario((long) 1);
 		
-		assertNotNull(usuarioObtenido);
-		System.out.println("Usuario Encontrado: " + usuarioObtenido.toString());
+		assertNotNull(usuario);
+		System.out.println("Usuario Encontrado: " + usuario.toString());
 	}
 	
 	@Test
@@ -58,13 +71,13 @@ public class UsuarioTest extends TestCase {
 	@Test
 	@Order(4)
 	public void borrarUsuario() {
-		Usuario usuarioBorrado = usuarioDao.obtenerUsuario((long) 111);
-		assertNotNull(usuarioBorrado);
+		usuario  = usuarioDao.obtenerUsuario((long) 111);
+		assertNotNull(usuario);
 		
-		usuarioDao.borrarUsuario(usuarioBorrado);
+		usuarioDao.borrarUsuario(usuario);
 		assertNull(usuarioDao.obtenerUsuario((long) 111));
 		
-		System.out.println("Usuario Borrado: " + usuarioBorrado.toString());
+		System.out.println("Usuario Borrado: " + usuario.toString());
 	}
 	
 }

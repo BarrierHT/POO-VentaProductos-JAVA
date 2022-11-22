@@ -12,9 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import ar.edu.unju.escmi.poo.dao.IStockDao;
-import ar.edu.unju.escmi.poo.dao.imp.StockDaoImp;
-
 @Entity
 @Table(name = "stocks")
 public class Stock implements Serializable {
@@ -64,15 +61,10 @@ public class Stock implements Serializable {
 	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
-	
-	public Stock obtenerId(Producto producto) {
-		
-		return null;
-	}
 
 	@Override
 	public String toString() {
 		return "Stock [id=" + id + ", cantidad=" + cantidad + ", producto=" + producto + "]";
 	}
-	
+
 }
