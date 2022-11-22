@@ -1,5 +1,7 @@
 package ar.edu.unju.escmi.poo.dao;
 
+import java.util.List;
+
 import ar.edu.unju.escmi.poo.models.Producto;
 import ar.edu.unju.escmi.poo.models.Stock;
 
@@ -10,5 +12,5 @@ public interface IStockDao {
 	public Stock obtenerStock(Producto producto);
 
 	public void modificarStock(Stock stock);
-
+	
 }

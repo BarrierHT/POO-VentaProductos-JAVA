@@ -13,4 +13,6 @@ public interface IUsuarioDao {
 	public List<Usuario> obtenerUsuarios();
 
 	public void modificarUsuario(Usuario usuario);
+	
+	public void borrarUsuario(Usuario usuario);
 }

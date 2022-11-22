@@ -41,7 +41,7 @@ public class Principal {
 		List<Producto> productList = productoDao.obtenerProductos(); // Get all products
 
 		Usuario usuarioRecovered = null; // Get user to initiate the session
-
+		
 		do {
 
 			if (credencial == false) { // User is not logged in
@@ -120,7 +120,7 @@ public class Principal {
 										System.out.println("Ingrese el Domicilio del usuario: ");
 										domicilioDeAlta = scanner.next();
 										try {
-											System.out.println("Ingrese la Fecha de Nacimiento del usuario : ");
+											System.out.println("Ingrese la Fecha de Nacimiento del usuario (AAAA-MM-DD) : ");
 											// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
 											String dateString = scanner.next();
 											fechaNacimientoDeAlta = LocalDate.parse(dateString);
@@ -203,14 +203,14 @@ public class Principal {
 						for (Producto producto : productList) {
 
 							Stock stock = stockDao.obtenerStock(producto);
-
+							
 							double price = producto.getPrecioUnitario();
 							if (producto.getDescuento() != 0) {
 								price -= price * ((double) producto.getDescuento() / 100);
 							}
 
 							System.out.println("Numero de Producto: " + i + " Descripcion: " + producto.getDescripcion()
-									+ " precio : " + price + "\n");
+									+ " precio : " + price);
 							System.out.println("Stock disponible: " + stock.getCantidad() + " categoria: "
 									+ producto.getCategoria().getTipo() + "\n\n");
 							i++;
