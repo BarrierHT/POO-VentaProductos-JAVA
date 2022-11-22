@@ -20,15 +20,15 @@ import junit.framework.TestCase;
 
 @TestMethodOrder(OrderAnnotation.class)
 public class UsuarioTest extends TestCase {
-	
+
 	IUsuarioDao usuarioDao = new UsuarioDaoImp();
 	Usuario usuario;
-	
+
 	@BeforeEach
 	protected void setUp() throws Exception {
 		usuario = new Usuario();
-	} 
-	
+	}
+
 	@Test
 	@Order(1)
 	public void testGuardarUsuario() {
@@ -41,43 +41,44 @@ public class UsuarioTest extends TestCase {
 		usuario.setPassword("testPassword");
 		usuario.setFechaNacimiento(LocalDate.now());
 		usuario.setRol(rol);
-		//Usuario usuario = new Usuario((long) 111, "testNombre" , "testApellido", "testDireccion", "testEmail111", "testPassword", LocalDate.now(), rol);
+		// Usuario usuario = new Usuario((long) 111, "testNombre" , "testApellido",
+		// "testDireccion", "testEmail111", "testPassword", LocalDate.now(), rol);
 		usuarioDao.guardarUsuario(usuario);
-		
+
 		assertNotNull(usuarioDao.obtenerUsuario(usuario.getDni()));
-		
+
 		System.out.println("Usuario Guardado: " + usuario.toString());
 	}
-	
+
 	@Test
 	@Order(2)
 	public void testObtenerUsuario() {
 		usuario = usuarioDao.obtenerUsuario((long) 1);
-		
+
 		assertNotNull(usuario);
 		System.out.println("Usuario Encontrado: " + usuario.toString());
 	}
-	
+
 	@Test
 	@Order(3)
 	public void testObtenerUsuarios() {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		usuarios = usuarioDao.obtenerUsuarios();
-		
+
 		assertNotNull(usuarios);
 		System.out.println("Lista de Usuarios: " + usuarios.toString());
 	}
-	
+
 	@Test
 	@Order(4)
 	public void borrarUsuario() {
-		usuario  = usuarioDao.obtenerUsuario((long) 111);
+		usuario = usuarioDao.obtenerUsuario((long) 111);
 		assertNotNull(usuario);
-		
+
 		usuarioDao.borrarUsuario(usuario);
 		assertNull(usuarioDao.obtenerUsuario((long) 111));
-		
+
 		System.out.println("Usuario Borrado: " + usuario.toString());
 	}
-	
+
 }
