@@ -61,4 +61,10 @@ public class Stock implements Serializable {
 	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
+
+	@Override
+	public String toString() {
+		return "Stock [id=" + id + ", cantidad=" + cantidad + ", producto=" + producto + "]";
+	}
+
 }

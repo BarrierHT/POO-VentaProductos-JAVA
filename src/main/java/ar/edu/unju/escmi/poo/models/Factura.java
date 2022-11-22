@@ -99,9 +99,11 @@ public class Factura implements Serializable {
 
 	@Override
 	public String toString() {
-		return "\n\n******************** Factura ********************" + "\nFecha: " + fechaGeneracion
-				+ " N° de Factura: " + nroFactura + "\nUsuario: " + usuario.getNombre() + " " + usuario.getApellido()
-				+ "\n************ Detalles de la Factura *************" + "\n"
-				+ detalles.toString().replaceAll("\\[|\\]", "").replaceAll(", ", "") + "\n";
+		return "\n\n************************* Factura *************************" 
+				+ "\nUsuario: " + usuario.getNombre() + " " + usuario.getApellido() + " N° de Factura: " + nroFactura
+				+ "\nDomicilio: " + usuario.getDireccion() + " Fecha: " + fechaGeneracion
+				+ "\n***************** Detalles de la Factura ******************" + "\n"
+				+ detalles.toString().replaceAll("\\[|\\]", "").replaceAll(", ", "") 
+				+ "\nTOTAL: " + total;
 	}
 }

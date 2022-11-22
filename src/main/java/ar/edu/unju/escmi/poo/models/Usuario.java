@@ -137,9 +137,9 @@ public class Usuario implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Usuario [dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", direccion=" + direccion
-				+ ", email=" + email + ", password=" + password + ", fechaNacimiento=" + fechaNacimiento + ", rol="
-				+ rol.getTipo() + "]";
+		return "Nombre: " + nombre + " " + apellido + " | DNI: " + dni + " | Direccion: " + direccion
+				+ "\nEmail: " + email + " | Password: " + password + " | Fecha de Nacimiento: " + fechaNacimiento 
+				+ "\nTipo de Rol: " + rol.getTipo() + "\n";
 	}
 
 }
