@@ -144,7 +144,7 @@ public class Principal {
 
 					if (option == 1) {
 
-						int rolId = 1;
+						int rolId = 1; // 1 = cliente
 						int dia = 0, mes = 0, anio = 0;
 						String nombreDeAlta = "", apellidoDeAlta = "", domicilioDeAlta = "";
 						String emailAlta = "", passwordAlta = "";
@@ -236,13 +236,15 @@ public class Principal {
 							System.out.println("\nINGRESE un verdadero Dni");
 						}
 
-						if (usuarioDao.obtenerUsuario(dniClient) == null
-								|| !usuarioDao.obtenerUsuario(dniClient).getRol().getTipo().equals("Cliente")) {
+						Usuario clientRecovered = usuarioDao.obtenerUsuario(dniClient);
+
+//						System.out.println(clientRecovered.getRol().getId() + clientRecovered.getRol().getTipo());
+
+//|| clientRecovered.getRol().getTipo().equals("Vendedor")
+						if (clientRecovered == null || clientRecovered.getRol().getId() == 2) {
 							System.out.println("\nCliente no encontrado\n"); // Check if client exists
 							continue;
 						}
-
-						Usuario clientRecovered = usuarioDao.obtenerUsuario(dniClient);
 
 						for (Producto producto : productList) {
 
@@ -349,9 +351,10 @@ public class Principal {
 					} else if (option == 3) {
 
 						System.out.println("\nLISTADO DE CLIENTES: ");
-						userList.stream().filter(u -> u.getRol().getTipo().equals("Cliente")).forEach(user -> {
-							System.out.println("\n" + user.toString());
-						});
+						usuarioDao.obtenerUsuarios().stream().filter(u -> u.getRol().getTipo().equals("Cliente"))
+								.forEach(user -> {
+									System.out.println("\n" + user.toString());
+								});
 
 //						 System.out.println(usuariosList.size());
 
