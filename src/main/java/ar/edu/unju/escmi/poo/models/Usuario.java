@@ -2,8 +2,6 @@ package ar.edu.unju.escmi.poo.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,9 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import ar.edu.unju.escmi.poo.dao.IFacturaDao;
-import ar.edu.unju.escmi.poo.dao.imp.FacturaDaoImp;
 
 @Entity
 @Table(name = "usuarios")
@@ -118,28 +113,11 @@ public class Usuario implements Serializable {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public List<Factura> consultarCompras() {
-
-		IFacturaDao facturaDao = new FacturaDaoImp();
-
-		List<Factura> facturas = facturaDao.obtenerFacturas();
-
-		System.out.println("Facturas size: " + facturas.size());
-		List<Factura> shoppingList = new ArrayList<Factura>();
-
-		for (Factura factura : facturas) {
-			if (factura.getUsuario().getDni() == this.dni)
-				shoppingList.add(factura);
-		}
-
-		return shoppingList;
-	}
-
 	@Override
 	public String toString() {
-		return "Usuario [dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", direccion=" + direccion
-				+ ", email=" + email + ", password=" + password + ", fechaNacimiento=" + fechaNacimiento + ", rol="
-				+ rol.getTipo() + "]";
+		return "Nombre: " + nombre + " " + apellido + " | DNI: " + dni + " | Direccion: " + direccion + "\nEmail: "
+				+ email + " | Password: " + password + " | Fecha de Nacimiento: " + fechaNacimiento + "\nTipo de Rol: "
+				+ rol.getTipo() + "\n";
 	}
 
 }

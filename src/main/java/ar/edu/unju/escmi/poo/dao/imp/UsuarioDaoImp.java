@@ -38,4 +38,11 @@ public class UsuarioDaoImp implements IUsuarioDao {
 		manager.merge(usuario);
 		manager.getTransaction().commit();
 	}
+	
+	@Override
+	public void borrarUsuario(Usuario usuario) {
+		manager.getTransaction().begin();
+		manager.remove(usuario);
+		manager.getTransaction().commit();
+	}
 }

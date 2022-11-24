@@ -87,12 +87,10 @@ public class Detalle implements Serializable {
 		this.producto = producto;
 	}
 
-	public void calcularImporte() {
-		this.setImporte(this.cantidad * this.producto.getPrecioUnitario());
-	}
-
 	@Override
 	public String toString() {
-		return "PRODUCTO: " + producto + "\nCANTIDAD: " + cantidad + " | IMPORTE: " + importe + "\n";
+		return "DESCRIPCION: " + producto.getDescripcion() 
+				+ "\nDESCUENTO: " + producto.getDescuento() + "%" + " | CANTIDAD: " 
+				+ cantidad + " | PRECIO: " + producto.getPrecioUnitario() + " | IMPORTE: " + importe + "\n";
 	}
 }

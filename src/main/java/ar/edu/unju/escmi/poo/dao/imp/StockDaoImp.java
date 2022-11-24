@@ -1,9 +1,12 @@
 package ar.edu.unju.escmi.poo.dao.imp;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import ar.edu.unju.escmi.poo.config.EmfSingleton;
 import ar.edu.unju.escmi.poo.dao.IStockDao;
+import ar.edu.unju.escmi.poo.models.Producto;
 import ar.edu.unju.escmi.poo.models.Stock;
 
 public class StockDaoImp implements IStockDao {
@@ -19,8 +22,15 @@ public class StockDaoImp implements IStockDao {
 	}
 
 	@Override
-	public Stock obtenerStock(int idStock) {
-		return manager.find(Stock.class, idStock);
+	public Stock obtenerStock(Producto producto) {
+		@SuppressWarnings("unchecked")
+		List<Stock> stocks = (List<Stock>) manager.createQuery("SELECT s FROM Stock s").getResultList();
+		for (Stock stock : stocks) {
+			if (stock.getProducto().getCodigo() == producto.getCodigo()) {
+				return stock;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -30,4 +40,5 @@ public class StockDaoImp implements IStockDao {
 		manager.getTransaction().commit();
 
 	}
+
 }

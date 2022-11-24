@@ -31,7 +31,7 @@ public class Factura implements Serializable {
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 
-	@OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "", fetch = FetchType.LAZY)
 	private List<Detalle> detalles = new ArrayList<Detalle>();
 
 	public Factura() {
@@ -90,18 +90,20 @@ public class Factura implements Serializable {
 	}
 
 	public void calcularTotal() {
-
+		double total = 0;
 		for (Detalle detalle : detalles) {
-			this.total += detalle.getImporte();
+			total += detalle.getImporte();
 		}
-
+		this.total = total;
 	}
 
 	@Override
 	public String toString() {
-		return "\n\n******************** Factura ********************" + "\nFecha: " + fechaGeneracion
-				+ " N° de Factura: " + nroFactura + "\nUsuario: " + usuario.getNombre() + " " + usuario.getApellido()
-				+ "\n************ Detalles de la Factura *************" + "\n"
-				+ detalles.toString().replaceAll("\\[|\\]", "").replaceAll(", ", "") + "\n";
+		return "\n\n************************* Factura *************************" 
+				+ "\nUsuario: " + usuario.getNombre() + " " + usuario.getApellido() + " N° de Factura: " + nroFactura
+				+ "\nDomicilio: " + usuario.getDireccion() + " Fecha: " + fechaGeneracion
+				+ "\n***************** Detalles de la Factura ******************" + "\n"
+				+ detalles.toString().replaceAll("\\[|\\]", "").replaceAll(", ", "") 
+				+ "\nTOTAL: " + total;
 	}
 }
