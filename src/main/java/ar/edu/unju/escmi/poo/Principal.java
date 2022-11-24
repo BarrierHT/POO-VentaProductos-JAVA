@@ -209,7 +209,7 @@ public class Principal {
 
 //						System.out.println(usuariosList.size());
 
-						List<Usuario> filteredUser = usuariosList.stream()
+		/*				List<Usuario> filteredUser = usuariosList.stream()
 								.filter(usuario -> usuario.getRol().getTipo().equals("Cliente")).toList();
 //						System.out.println(usuariosList.size());
 
@@ -220,7 +220,7 @@ public class Principal {
 									+ usuario.getFechaNacimiento().toString() + "\n");
 							System.out.println("Dni: " + usuario.getDni() + " Email: " + usuario.getEmail() + "\n\n");
 						}
-
+*/
 						System.out.println("\nOpcion de Listado de Clientes Finalizada");
 
 					} else if (option == 4) {
